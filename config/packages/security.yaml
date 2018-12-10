@@ -26,7 +26,6 @@ security:
         api:
             pattern: ^/api
             user_checker: GSS\Component\Security\UserChecker
-            logout_on_user_change: true
             json_login:
                 check_path:               /api/login
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
@@ -38,7 +37,6 @@ security:
 
         main:
             anonymous:    true
-            logout_on_user_change: true
             user_checker: GSS\Component\Security\UserChecker
             remember_me:
                 secret:   '%secret%'
