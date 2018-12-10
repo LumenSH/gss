@@ -1,0 +1,30 @@
+<h3>{{ __("Mein Account", "MyAccount", "Server") }}</h3>
+<table style="width: 100%;">
+	<tr>
+		<td style="width: 70%;"><strong>{{ __("Aktueller Guthabenstand:", "currentGP", "Server") }} </strong></td>
+		<td>{{ User.GP }} GP</td>
+	</tr>
+	<tr>
+		<td><h3>{{ __("Meine Features", "MyFeatures", "Server") }}</h3></td>
+	</tr>
+	<tr>
+		<td><b>{{ __("Maximale Passive Server:", "MaxServer", "Server") }} </b></td>
+		<td>{{ User.MaxServer }}</td>
+	</tr>
+	<tr>
+		<td><b>{{ __("Maximale Passive Slots:", "MaxSlots", "Server") }} </b></td>
+		<td>{{ User.MaxSlots }}</td>
+	</tr>
+	<tr>
+		<td><b>{{ __("Maximale FTP Zugänge:", "MaxFTP", "Server") }} </b></td>
+		<td>{{ User.MaxFTP }}</td>
+	</tr>
+	<tr>
+		<td><b>{{ __("Maximale MySQL Zugänge:", "MaxMySQL", "Server") }} </b></td>
+		<td>{{ User.MaxMySQL }}</td>
+	</tr>
+	<tr>
+		<td><b>{{ __("Maximale Gastzugänge:", "MaxGuest", "Server") }} </b> </td>
+		<td>{{ User.MaxGast }}</td>
+	</tr>
+</table>

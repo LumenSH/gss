@@ -1,0 +1,79 @@
+<div class="clearfix mb20 single-post{% if newPost is defined %} hidden{% endif %}"{% if newPost is defined %} id="answerbox"{% endif %}>
+    <div class="col-sm-3 col-md-2">
+        <div class="user-profile mb20 text-center">
+            {{ avatar(entrie.userAvatar, "img-profile img-round", true) }}
+        </div>
+        <div class="user-info mb10 pa5">
+            <div class="bg-red txt-white border-top text-center">
+                <a class="ma0 fz-24 pv5" href="{{ baseUrl }}{{ entrie.userSlug }}">{{ entrie.username }}</a>
+            </div>
+            {% if entrie.Role != "default" %}
+                <div class="memberBanner">
+                    <span class="before"></span>
+                    <strong>Staff-Member</strong>
+                    <span class="after"></span>
+                </div>
+            {% endif %}
+            <dl class="clearfix">
+                <dt>{{ __("Joined:", 'Joined', 'Forum') }}</dt>
+                <dd>{{ entrie.RegisterDate|date('d.m.Y') }}</dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>{{ __('Beiträge', 'posts', 'Forum') }}</dt>
+                <dd>{{ entrie.entriesCount }}</dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>{{ __("Rank:", 'Rank', 'Forum') }}</dt>
+                <dd>{{ entrie.rank.name }}</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-sm-9 col-md-10 pos-relative">
+        <div class="post-content">
+            {{ entrie.date|date("d.m.Y") }} at {{ entrie.date|date("H:i") }}
+            <hr class="mt0">
+            {{ entrie.message|raw }}
+            {% if entrie.userSignatur is not empty %}
+                <hr>
+                <div class="signatur-wrapper">
+                    {{ entrie.userSignatur|raw }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="post-footer clearfix">
+            {% if entrie.userID == User.id or isForumAdmin %}
+                <div class="pull-left">
+                    <a href="{{ baseUrl }}forum/edit/{{ entrie.id }}" class="btn btn-info"><span class="ion-edit txt-white"></span></a>
+                    <a href="{{ baseUrl }}forum/deleteEntrie/{{ entrie.id }}" class="btn btn-danger ml5"><span class="ion-trash-b txt-white"></span></a>
+                </div>
+            {% endif %}
+            {% if User is not empty %}
+                <div class="pull-right">
+                    {% if entrie.likes is not empty %}
+                        <span class="like-info pa5 mr5">
+                                        {% set maxLoop = entrie.likes|length %}
+
+                            {% if maxLoop > 3 %}
+                                {% set maxLoop = 3 %}
+                            {% endif %}
+
+                            {% set maxLoop = maxLoop -1 %}
+
+                            {% for i in 0..maxLoop %}
+                                {% if entrie.likes[i] is not empty %}
+                                    <a href="/{{ entrie.likes[i].Link }}" class="underline{% if loop.last == false %} mr5{% endif %}">{{ entrie.likes[i].Username }}{% if loop.last == false %},{% endif %}</a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if entrie.likes|length > 3 %}
+                                and <a href="#" data-tooltip="true" title="{% for i in 3..entrie.likes|length -1 %}{{ entrie.likes[i].Username }}{% if loop.last == false %}, {% endif %}{% endfor %}">{{ entrie.likes|length -3 }} {{ __("other(s)", "likeOthers", "Forum") }}</a>
+                            {% endif %}
+                            {{ __('likes this', 'LikesThis', 'Forum') }}
+                                    </span>
+                    {% endif %}
+                    <a href="{{ baseUrl }}forum/like/{{ thread.id }}/{{ entrie.id }}" class="btn btn-primary"><i class="ion-ios-heart"></i> {{ __("Like post", 'Like', 'Forum') }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

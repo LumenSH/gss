@@ -1,0 +1,56 @@
+@keyframes fromLeft{
+  from{
+    left: -25%;
+    top: 0;
+    opacity: 0;
+  }
+  to{
+    left: 0;
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fromLeft{
+  from{
+    left: -25%;
+    top: 0;
+    opacity: 0;
+  }
+  to{
+    left: 0;
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes toLeft{
+  from{
+    left: 0;
+    top: 0;
+    opacity: 1;
+  }
+  to{
+    left: -25%;
+    top: 0;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes toLeft{
+  from{
+    left: 0;
+    top: 0;
+    opacity: 1;
+  }
+  to{
+    left: -25%;
+    top: 0;
+    opacity: 0;
+  }
+}
+
+.fromLeft{
+  animation: fromLeft 0.5s 1;
+}
+.toLeft{
+  animation: toLeft 0.5s 1;
+}

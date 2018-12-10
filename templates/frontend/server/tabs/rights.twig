@@ -1,0 +1,21 @@
+<button class="btn btn-primary mb10" data-right-add="true">{{ __("Neuen Benutzer hinzufügen", "NewUser", "Server") }}</button>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>{{ __("Benutzer", "User", "Server") }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for right in rights %}
+            <tr>
+                <td>{{ right.Username }}</td>
+                <td class="pull-right">
+                    <a class="btn btn-primary" href="#" data-right-edit='{{ right|json_encode }}'>{{ __("Bearbeiten", "Edit", "Server") }}</a>
+                    <a class="btn btn-danger" href="{{ baseUrl }}server/deleteRight/{{ gs.id }}/{{ right.Username }}">{{ __("Löschen", "Delete", "Server") }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

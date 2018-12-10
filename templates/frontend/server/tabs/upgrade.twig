@@ -1,0 +1,35 @@
+<div class="list-group">
+    {% for upgrade in upgrades %}
+        <div class="row">
+            <div class="col-sm-3">
+                {% if upgrade.img is not empty %}
+                    <img class="img-responsive" src="{{ baseUrl }}uploads/games/{{ upgrade.img }}">
+                {% endif %}
+            </div>
+            <div class="col-sm-9 mt20-xs">
+                <h4 class="list-group-item-heading">{{ upgrade.name }} {{ upgrade.slots }} {{ __("Slots", "Slots", "Server") }}</h4>
+
+                <p class="list-group-item-text">
+                <ul>
+                    <li>{{ upgrade.slots }} {{ __("Slot", "Slot", "Server") }}</li>
+                    <li>{{ User.Maxmysql }} {{ __("Datenbank Accounts", "DatabaseAccounts", "Server") }}</li>
+                    <li>{{ User.Maxftp }} {{ __("FTP Accounts", "FTPAccounts", "Server") }}</li>
+                    <li>{% if upgrade.type == 0 %}{{ __("24/7 Online", "24/7Online", "Server") }}{% else %}{{ __("Schaltet sich ab sobald keiner mehr Online ist", "PassiveOnline", "Server") }}{% endif %}</li>
+                    <li>{{ User.Maxgast }} {{ __("Gastzugänge", "GuestAccounts", "Server") }}</li>
+                    <li>{{ __("Control Panel", "ControlPanel", "Server") }}</li>
+                </ul>
+                <p>
+                <h5>{{ __("Kosten:", "Cost", "Server") }} <b>{{ upgrade.gp|number_format(0,'.','.') }}
+                        GP</b> {{ __("im Monat", "perMonth", "Server") }}</h5>
+
+                <p>
+                    <a href="{{ baseUrl }}server/extend/{{ gs.id }}/{{ upgrade.id }}"
+                       onclick="return window.confirm('{{ __('Möchtest du wirklich deinen Gameserver upgraden?', 'UpgradeServer', 'Server') }}')"
+                       class="btn btn-primary btn-xs">
+                        {{ __("Zu dieser Variante wechseln", "ChangeVariant", "Server") }}
+                    </a>
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>

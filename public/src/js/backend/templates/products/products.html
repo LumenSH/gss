@@ -1,0 +1,34 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2 class="mtm">Produkte
+            <a href="#!/products/add" class="btn btn-primary pull-right">Neues Produkt anlegen</a>
+        </h2>
+    </div>
+    <div class="panel-body pa0">
+        <table class="table table-striped mb0">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Bild</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="product in products.data">
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>
+                        <div ng-if="product.img">
+                            <img src="/uploads/games/{{ product.img }}" width="64">
+                        </div>
+                    </td>
+                    <td class="pull-right">
+                        <a class="btn btn-primary" href="#!/products/{{ product.id }}">Editieren</a>
+                        <a class="btn btn-danger" ng-click="deleteProduct(product)">Löschen</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    {% if User is empty or User.Intro == 1 %}
+        {% include "frontend/index/dashboard.twig" %}
+    {% else %}
+        {% include "frontend/index/intro.twig" %}
+    {% endif %}
+{% endblock %}

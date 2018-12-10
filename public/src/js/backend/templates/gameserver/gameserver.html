@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>Filter</h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Spiel</label>
+                    <select ng-model="search.type" class="form-control" ng-options="option.name for option in options.games track by option.id"></select>
+                </div>
+                <div class="form-group">
+                    <label>Port</label>
+                    <input type="text" ng-model="search.port" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Server Art</label>
+                    <select ng-model="search.Typ" class="form-control">
+                        <option value="-1">Alle</option>
+                        <option value="0">Aktive</option>
+                        <option value="1">Passive</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary col-xs-12" ng-click="refreshGameserver()">Suchen</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="mtm">Gameserver</h2>
+            </div>
+            <div class="panel-body pa0">
+                <table class="table table-striped mb0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Spiel</th>
+                            <th>IP</th>
+                            <th>Besitzer</th>
+                            <th>Art</th>
+                            <th>Läuft ab am</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="gameserver in gameservers.data">
+                            <td>{{ gameserver.id }}</td>
+                            <td>{{ gameserver.Gamename }}</td>
+                            <td>{{ gameserver.IP }}:{{ gameserver.port }}</td>
+                            <td>{{ gameserver.Username }}</td>
+                            <td>{{ gameserver.typ == 0 ? "Aktiver" : "Passiver" }}</td>
+                            <td>{{ gameserver.duration|germanDate }}</td>
+                            <td>
+                                <a href="/server/view/{{ gameserver.id }}" class="btn btn-primary block">Zum Gameserver wechseln</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <nav>
+            <ul class="pagination center-items">
+                <li ng-repeat="pagi in gameservers.pageination">
+                    <a ng-click="loadPage(pagi)" ng-class="{true:'fw-800', false:''}[pagi==page]">{{ pagi }}</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div>
+        <h1 class="ma0 inline-block">{{ pageTitle }}</h1>
+    </div>
+    <hr class="mt5 mb5">
+    <span class="fz-24">{{ __("Du hast zurzeit :", "YouHaveGP", 'GP') }} <span class="txt-green">{{ User.GP|number_format(0, ".", ".") }} GP</span></span>
+    <div class="row mt10">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h2 class="fz-24 mt0 inline-block">{{ __("Übersicht", "overviewhead", "GP") }}</h2>
+                    <ul class="nav nav-tabs pull-right">
+                        <li class="active">
+                            <a href="#all" data-toggle="tab">{{ __("Alle", "ListAll", "GP") }}</a>
+                        </li>
+                        <li>
+                            <a href="#in" data-toggle="tab">{{ __("Erhalten", "earned", "GP") }} </a>
+                        </li>
+                        <li>
+                            <a href="#out" data-toggle="tab">{{ __("Ausgegeben", "spend", "GP") }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="all">
+                            {% include "frontend/gp/gp_history.twig" with {history: GPStats.all, name: "gp-all"} %}
+                        </div>
+                        <div class="tab-pane" id="in">
+                            {% include "frontend/gp/gp_history.twig" with {history: GPStats.in, name: "gp-in"} %}
+                        </div>
+                        <div class="tab-pane" id="out">
+                            {% include "frontend/gp/gp_history.twig" with {history: GPStats.out, name: 'gp-out'} %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h2 class="fz-24 mt0">{{ __("Graph", "graphhead", "GP") }}</h2>
+                </div>
+                <div class="panel-body gpChart-wrapper">
+                    <div id="gpChart" style="height: 300px"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h2 class="fz-24 mt0 inline-block">{{ __("Mit Bannern werben", "AdverseWithBanner", "GP") }}</h2>
+                    <a class="txt-white fz-40 lh-20 pull-right info-button" data-toggle="tooltip" data-tooltip="true" data-placement="left" title="{{ __("Hier kannst du unsere Banner finden. Binde den Code in deinem Forum deiner Website oder deiner Signatur ein. Für jeden klick auf den Banner erhälst du ein paar GP für deine Server.", "BannerInfo", "GP") }}">
+                        <i class="icon ion-ios-help-outline"></i>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <section>
+                        <div class="text-center mb20">
+                            <h2>Banner #1 600x100</h2>
+                            <img class="img-responsive inline-block" src="{{ baseUrl }}src/img/banner1.jpg" alt="Banner 1"/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">BB Code</span>
+                            <input type="text" class="form-control" value="[url='{{ baseUrl }}index/partner/{{ User.id }}'][img]{{ baseUrl }}src/img/banner1.jpg[/img][/url]" id="code1">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-copy" type="button" data-clipboard-target="#code1">
+                                    <i class="ion-ios-copy-outline txt-black"></i> {{ __("Kopieren", "Copy", "GP") }}
+                                </button>
+                            </span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">HTML Code</span>
+                            <input type="text" class="form-control" value='<a href="{{ baseUrl }}index/partner/{{ User.id }}"><img src="{{ baseUrl }}src/img/banner1.jpg"></a>' id="code2">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-copy" type="button" data-clipboard-target="#code2">
+                                    <i class="ion-ios-copy-outline txt-black"></i> {{ __("Kopieren", "Copy", "GP") }}
+                                </button>
+                            </span>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

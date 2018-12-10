@@ -1,0 +1,124 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="clearfix user-container">
+        <div class="col-sm-3 userSidebar">
+            <div class="pos-relative">
+                {{ avatar(viewedUser.Avatar, "img-responsive", true) }}
+                {% if viewedUser.Role != 'default' %}
+                    <div class="memberWrapper">
+                        <div class="memberBanner">
+                            <span class="before"></span>
+                            <strong>Staff-Member</strong>
+                            <span class="after"></span>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <hr>
+            <div class="user-details">
+                <div class="row">
+                    <div class="col-sm-3 text-right">
+                        {{ viewedUser.entriesCount }}
+                    </div>
+                    <div class="col-sm-9">
+                        {{ __('Beiträge', 'Posts', 'User') }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 text-right">
+                        {{ viewedUser.likes }}
+                    </div>
+                    <div class="col-sm-9">
+                        {{ __('Erhaltene Likes', 'Likes', 'User') }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 text-right">
+                        {{ viewedUser.Visits }}
+                    </div>
+                    <div class="col-sm-9">
+                        {{ __('Profil-Aufrufe', 'ProfileRequests', 'User') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="pos-relative">
+                <h2 class="mt10">{{ viewedUser.Username|ucfirst }}</h2>
+                <small class="mb5 user-registered-since">
+                    {{ __('Mitglied seit dem', 'RegisterDate', 'User') }} {{ viewedUser.RegisterDate|date("d.m.Y") }}
+                </small>
+            </div>
+            <hr class="mv5">
+            <div class="block mv5">
+                <small>{{ __('Aktueller Rang:', 'CurrentRank', 'User') }} <b>{{ viewedUser.rank.name }}</b></small>
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#profile" data-toggle="tab">
+                        {{ __('Profilbeschreibung', 'ProfilDescription', 'User') }}
+                    </a>
+                </li>
+                {% if viewedUser.Skype is not empty %}
+                    <li>
+                        <a href="#contact" data-toggle="tab">
+                            {{ __('Kontaktmöglichkeiten', 'Contact', 'User') }}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if viewedUser.server is not empty %}
+                    <li>
+                        <a href="#myservers" data-toggle="tab">
+                            {{ viewedUser.Username|ucfirst }}´s Servers
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="profile">
+                    <div class="pa5">
+                        {{ viewedUser.Description|raw }}
+                    </div>
+                </div>
+                {% if viewedUser.Skype is not empty %}
+                    <div class="tab-pane fade pa5" id="contact">
+                        <dl class="row">
+                            <dt class="col-sm-2">Discord:</dt>
+                            <dd class="col-sm-10">{{ viewedUser.Skype }}</dd>
+                        </dl>
+                    </div>
+                {% endif %}
+                {% if viewedUser.server is not empty %}
+                    <div class="tab-pane fade" id="myservers">
+                        <div class="pa5">
+                            <div class="list-group">
+                                {% for server in viewedUser.server %}
+                                    <div class="list-group-item">
+                                        <div class="row-action-primary mr10">
+                                            <img src="{{ baseUrl }}uploads/games/{{ server.image }}" width="60">
+                                        </div>
+                                        <div class="row-content">
+                                            <div class="action-secondary"><i class="mdi-material-info"></i>
+                                            </div>
+                                            <h4 class="list-group-item-heading">{{ server.productName }}</h4>
+                                            <p class="list-group-item-text">
+                                                IP: {{ server.ip }}:{{ server.port }}<br>
+                                                Slots: {{ server.slot }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% if loop.last is empty %}
+                                        <div class="list-group-separator"></div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+<form method="post" action="{{ baseUrl }}server/saveProperties/{{ gs.id }}">
+    <div class="row">
+        {% for element in gsForm %}
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>{{ element.label }}</label>
+                    {% if element.type == 'select' %}
+                        <select name="{{ element.name }}" class="form-control">
+                            {% for key, option in element.options %}
+                                <option value="{{ key }}"{% if gsProperties[element.name] == key %} selected {% endif %}>{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                    {% elseif element.type == 'boolean' %}
+                        <div class="row press ml10">
+                            <input type="checkbox" id="notifications_{{ element.name }}" name="{{ element.name }}" value="1" class="cbx hidden"{% if gsProperties[element.name] == "1" %} checked{% endif %}>
+                            <label for="notifications_{{ element.name }}" class="lbl"></label>
+                        </div>
+                    {% else %}
+                        <input class="form-control" name="{{ element.name }}" value="{{ gsProperties[element.name] }}">
+                    {% endif %}
+                    <small>{{ element.helpText }}</small>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="btn btn-primary pull-right">{{ __("Speichern", "save", "Server") }}</button>
+</form>

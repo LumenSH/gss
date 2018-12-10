@@ -1,0 +1,37 @@
+{% spaceless %}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{{ baseUrl }}</loc>
+    </url>
+    <url>
+        <loc>{{ baseUrl }}register</loc>
+    </url>
+    <url>
+        <loc>{{ baseUrl }}user/reset</loc>
+    </url>
+    <url>
+        <loc>{{ baseUrl }}blog</loc>
+    </url>
+    <url>
+        <loc>{{ baseUrl }}shop</loc>
+    </url>
+    <url>
+        <loc>{{ baseUrl }}shop/index/passive</loc>
+    </url>
+    <url>
+        <loc>{{ baseUrl }}shop/index/upgrades</loc>
+    </url>
+    <url>
+        <loc>{{ baseUrl }}shop/showVariants/0/mta</loc>
+    </url>
+    <url>
+        <loc>{{ baseUrl }}shop/showVariants/0/samp</loc>
+    </url>
+    {% for link in links %}
+        <url>
+            <loc>{{ baseUrl }}{{ link.link }}</loc>
+        </url>
+    {% endfor %}
+</urlset>
+{% endspaceless %}

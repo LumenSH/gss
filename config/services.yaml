@@ -1,0 +1,235 @@
+parameters:
+    version: "3.5.0"
+    database_host: "%env(DB_HOST)%"
+    database_port: 3306
+    database_name: "%env(DB_DATABASE)%"
+    database_user: "%env(DB_USER)%"
+    database_password: "%env(DB_PASSWORD)%"
+    mailer_transport: smtp
+    mailer_host: "%env(SMTP_HOST)%"
+    mailer_user: "%env(SMTP_USER)%"
+    mailer_password: "%env(SMTP_PASSWORD)%"
+    mailer_port: "%env(SMTP_PORT)%"
+    url: "%env(HOST)%"
+    memcached_server: "%env(MEMCACHED_SERVER)%"
+    rabbit_host: "%env(RABBIT_HOST)%"
+    secret: f734e0b0282139ebb79ff288254809dfac99a1dd
+    onesignal_appid: ""
+    onesignal_appkey: ""
+    onesignal_userauth: ""
+    email.sender: "noreply@gameserver-sponsor.me"
+    email.sendername: "Gameserver-Sponsor"
+    recaptcha: ""
+    support:
+        - General
+        - Gameserver
+        - Bug
+        - 'Feature Request'
+    gppoints.invite: 1
+    gppoints.inviteregister: 5
+    gppoints.serverbanner: 1
+    gppoints.serverplayer: 1
+    gppoints.tutorial: 100
+    gppoints.dailylogin: 20
+    gppoints.startgp: 1000
+    cloudflare.api_email: ""
+    cloudflare.api_key: ""
+    cloudflare.use_domains: [example.com]
+    twilio.sid: ""
+    twilio.token: ""
+    twilio.number: ''
+    oauth.facebook: { clientId: '', clientSecret: "", redirectUri: 'https://gameserver-sponsor.me/oauth', graphApiVersion: v2.10 }
+    oauth.google: { clientId: '', clientSecret: "", redirectUri: 'https://gameserver-sponsor.me/oauth/', hostedDomain: 'https://gameserver-sponsor.me' }
+    oauth.discord: { clientId: '', clientSecret: "", redirectUri: 'https://gameserver-sponsor.me/oauth/' }
+    oauth.twitch: { clientId: '', clientSecret: "", redirectUri: 'https://gameserver-sponsor.me/oauth/' }
+    language:
+        mapping: [de, en]
+        browserMapping: { de: de }
+        defaultLanguage: en
+    acl:
+        roles: { default: {  }, admin: [any], supporter: [admin, admin_index, admin_support, admin_cms, admin_blog, admin_translate, admin_user, admin_server, admin_gameserver, forum] }
+        role_hierarchy: {  }
+    jwt_private_key_path: '%kernel.root_dir%/../var/jwt/private.pem'
+    jwt_public_key_path:  '%kernel.root_dir%/../var/jwt/public.pem'
+    jwt_key_pass_phrase:  '1234'
+    jwt_token_ttl:        3600
+    locale: 'en'
+    model_generator:
+        cms:
+            title: json_array
+            content: json_array
+            meta: json_array
+
+services:
+    _defaults:
+        public: true
+
+    session:
+        alias: GSS\Component\Session\Session
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler:
+        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
+        arguments: ['@cache']
+    cache:
+        class: Memcached
+        calls:
+            - [addServer, ['%memcached_server%', 11211]]
+    security.login_auth:
+        class: GSS\Component\Security\LoginAuthenticator
+        arguments: ['@service_container']
+    security.user_provider:
+        class: GSS\Component\Security\UserProvider
+        arguments: ['@service_container']
+    rabbit.connection:
+        class: PhpAmqpLib\Connection\AMQPStreamConnection
+        arguments: ['%rabbit_host%', '5672', gss, '%database_password%']
+    OneSignal\Config:
+        class: OneSignal\Config
+        public: false
+        calls:
+            - [setApplicationAuthKey, ['%onesignal_appkey%']]
+            - [setApplicationId, ['%onesignal_appid%']]
+            - [setUserAuthKey, ['%onesignal_userauth%']]
+
+    guzzleclient:
+        class: GuzzleHttp\Client
+        public: false
+    guzzlemessagefactory:
+        class: Http\Message\MessageFactory\GuzzleMessageFactory
+        public: false
+    guzzle.adapter:
+        class: Http\Adapter\Guzzle6\Client
+        arguments: ['@guzzleclient']
+    httpclient:
+        class: Http\Client\Common\HttpMethodsClient
+        public: false
+        arguments: ['@guzzle.adapter', '@guzzlemessagefactory']
+    OneSignal\OneSignal:
+        class: OneSignal\OneSignal
+        arguments: ['@OneSignal\Config', '@httpclient']
+    app.user.user:
+        class: GSS\Component\User\User
+        arguments: ['@service_container']
+    app.hosting.gameserver.db.server:
+        class: GSS\Component\Hosting\Gameserver\DatabaseServer
+        arguments: ['@doctrine.dbal.default_connection', '@session']
+    flash.messenger:
+        class: GSS\Component\Session\FlashMessenger
+        arguments: ['@session']
+    push.manager:
+        class: GSS\Component\Push\Manager
+        arguments: ['@OneSignal\OneSignal']
+    app.cron.emptyserverstop:
+        alias: GSS\Component\Cron\EmptyServerStop
+    app.cron.generateserverbanner:
+        alias: GSS\Component\Cron\GameserverBanner
+    app.cron.webpush:
+        alias: GSS\Component\Cron\WebPush
+    app.cron.minecraft_version_updater:
+        alias: GSS\Component\Cron\MinecraftVersionUpdater
+    app.cron.mta_version_updater:
+        alias: GSS\Component\Cron\MTAVersionUpdater
+    app.cron.delete_block_tasks:
+        alias: GSS\Component\Cron\DeleteBlockTasks
+    app.cron.delete_expirated_servers:
+        alias: GSS\Component\Cron\DeleteExpiratedServers
+    app.cron.update_steam_games:
+        alias: GSS\Component\Cron\UpdateSteamImageServer
+    app.cron.build_stats_dashboard:
+        alias: GSS\Component\Cron\BuildStatsDashboard
+    app.cron.server_reminder:
+        alias: GSS\Component\Cron\ServerReminder
+    app.cron.server_player:
+        alias: GSS\Component\Cron\ServerPlayer
+    app.cron.updatebrowser:
+        alias: GSS\Component\Cron\UpdateServerBrowser
+    app.cron.refresh_cache:
+        alias: GSS\Component\Cron\RefreshCache
+    Twilio\Rest\Client:
+        class: Twilio\Rest\Client
+        public: false
+        arguments: ['%twilio.sid%', '%twilio.token%']
+    app.user.sms:
+        class: GSS\Component\User\SmsService
+        arguments: ['@Twilio\Rest\Client', '%twilio.number%', '@logger']
+    League\OAuth2\Client\Provider\Facebook:
+        class: League\OAuth2\Client\Provider\Facebook
+        arguments: ['%oauth.facebook%']
+    League\OAuth2\Client\Provider\Google:
+        class: League\OAuth2\Client\Provider\Google
+        arguments: ['%oauth.google%']
+    Discord\OAuth2\Client\Provider\Discord:
+        class: Discord\OAuth2\Client\Provider\Discord
+        arguments: ['%oauth.discord%']
+    Depotwarehouse\OAuth2\Client\Twitch\Provider\Twitch:
+        class: Depotwarehouse\OAuth2\Client\Twitch\Provider\Twitch
+        arguments: ['%oauth.twitch%']
+    language:
+        class: GSS\Component\Language\Language
+        arguments: ['@session', '%language%']
+    translation:
+        class: GSS\Component\Language\Translation
+        arguments: ['@cache.app', '@doctrine.dbal.default_connection', '@language', '%language%']
+    app.security.password_encoder.bcrypt:
+        class: GSS\Component\Security\PasswordEncoder\Bcrypt
+    app.cloudflare_api:
+        class: GSS\Component\Hosting\Cloudflare
+        arguments: ['%cloudflare.api_email%', '%cloudflare.api_key%', '@doctrine.dbal.default_connection']
+    rewrite_manager:
+        class: GSS\Component\Routing\RewriteManager
+        arguments: ['@cache.app', '@doctrine.dbal.default_connection']
+    twig.extensions.text:
+        class: Twig_Extensions_Extension_Text
+        public: false
+        tags:
+            - { name: twig.extension }
+    app.hosting.gameserver.ftp:
+        class: GSS\Component\Hosting\Gameserver\FTPManager
+        arguments: ['@service_container', '@doctrine.dbal.default_connection']
+    request:
+        class: GSS\Component\HttpKernel\Request
+        factory: [GSS\Component\HttpKernel\Request, createFromGlobals]
+    logger:
+        alias: "monolog.logger"
+        public: true
+    Cocur\Slugify\Slugify:
+        class: Cocur\Slugify\Slugify
+    GSS\Component\:
+        resource: '../src/Component'
+        exclude: '../src/Component/{Language/TranslationHelper.php,EventDispatcher/SentryListener.php,Hosting/Gameserver/Daemon.php,Hosting/Gameserver/Games/*.php,Reader/*.php,Security/{Acl,User}.php,Structs/*.php,Twig/Twig.php}'
+        autowire: true
+        autoconfigure: true
+    GSS\Component\Hosting\Cloudflare:
+        autowire: true
+        bind:
+            $apiEmail: '%cloudflare.api_email%'
+            $apiPassword: '%cloudflare.api_key%'
+    GSS\Component\Language\Language:
+        autowire: true
+        bind:
+            $lanuageConfig: '%language%'
+    GSS\Component\Language\Translation:
+        autowire: true
+        bind:
+            $languageConfig: '%language%'
+    GSS\Component\User\SmsService:
+        autowire: true
+        bind:
+            $number: '%twilio.number%'
+    GSS\Component\Util:
+        autowire: true
+        bind:
+            $publicDir: '%kernel.public_dir%'
+    GSS\Controller\:
+        resource: '../src/Controller/*'
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+    GSS\Command\:
+        resource: '../src/Command/*'
+        autowire: true
+        autoconfigure: true
+        public: false
+    GSS\Models\:
+        resource: '../src/Models'
+        autowire: true
+        public: false

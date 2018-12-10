@@ -1,0 +1,136 @@
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="mtm">
+                {{ panelTitle }}
+            </h2>
+            <ul class="nav nav-tabs" role="tablist" ng-if="product.id">
+                <li ng-class="$parent.tab == 'allgemein' ? 'active' : ''">
+                    <a ng-click="$parent.tab = 'allgemein'">Allgemein</a>
+                </li>
+                <li ng-class="$parent.tab == 'console' ? 'active' : ''">
+                    <a ng-click="$parent.tab = 'console'">Konsolenbefehle</a>
+                </li>
+                <li ng-class="$parent.tab == 'variant' ? 'active' : ''">
+                    <a ng-click="$parent.tab = 'variant'">Varianten</a>
+                </li>
+                <li ng-class="$parent.tab == 'version' ? 'active' : ''">
+                    <a ng-click="$parent.tab = 'version'">Versionen</a>
+                </li>
+                <li ng-class="$parent.tab == 'addons' ? 'active' : ''">
+                    <a ng-click="$parent.tab = 'addons'">Addons</a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="tab-pane fade" ng-class="tab == 'allgemein' ? 'in active' : ''">
+                    <form enctype="multipart/form-data" ng-submit="saveProduct()">
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input ng-model="product.name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Executeable:</label>
+                            <input ng-model="product.executable" class="form-control">
+                        </div>
+                        <div>
+                            <label>
+                                <input type="checkbox" ng-model="product.active" ng-true-value="'1'" ng-false-value="'0'" value="1"> Aktiv
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="checkbox" ng-model="product.banner" ng-true-value="'1'" ng-false-value="'0'" value="1"> Banner-Support
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Beschreibung Deutsch:</label>
+                            <input ng-model="product.description_de" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Beschreibung Englisch:</label>
+                            <input ng-model="product.description_en" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Interner Name:</label>
+                            <input ng-model="product.internalName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Bild:</label>
+                            <input onchange="angular.element(this).scope().uploadFile(this.files)" type="file">
+                        </div>
+                        <div class="form-group">
+                            <label>Steam ID:</label>
+                            <input ng-model="product.steamID" class="form-control">
+                        </div>
+                        <input type="submit" upload-submit class="btn btn-primary pull-right" value="Speichern">
+                    </form>
+                </div>
+                <div class="tab-pane fade" ng-class="tab == 'console' ? 'in active' : ''">
+                    <div class="form-group">
+                        <label>Konsolenbefehle Deutsch</label>
+                        <div ng-model="product.consoleCommands_de" ui-ace="{mode: 'html'}" style="height: 400px"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Konsolenbefehle Englisch</label>
+                        <div ng-model="product.consoleCommands_en" ui-ace="{mode: 'html'}" style="height: 400px"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" ng-class="tab == 'variant' ? 'in active' : ''">
+                    <div class="clearfix">
+                        <a href="#!/products/{{ product.id }}/add" class="btn btn-primary pull-right">Neue Variante anlegen</a>
+                    </div>
+                    <table class="table table-striped mt10">
+                        <thead>
+                            <tr>
+                                <th>Slots</th>
+                                <th>Ram</th>
+                                <th>GP</th>
+                                <th>Typ</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="variant in product.variants">
+                                <td>{{ variant.slots }}</td>
+                                <td>{{ variant.ram }}</td>
+                                <td>{{ variant.gp }}</td>
+                                <td>{{ variant.type == "0" ? 'Aktiver' : 'Passiver' }}</td>
+                                <td class="pull-right">
+                                    <a href="#!/products/{{ product.id }}/{{ variant.id }}" class="btn btn-primary">Variante bearbeiten</a>
+                                    <a ng-click="deleteVariant(variant)" class="btn btn-danger">Variante löschen</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" ng-class="tab == 'version' ? 'in active' : ''">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Version</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="version in product.versions">
+                                <td>{{ version.version }}</td>
+                                <td>
+                                    <a ng-click="deleteVersion(version)" class="btn btn-danger pull-right">Version löschen</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <label>Version: </label>
+                        <input type="text" name="version" ng-model="newVersion" class="form-control">
+                    </div>
+                    <button ng-click="addVersion()" class="btn btn-primary pull-right">Neue Version anlegen</button>
+                </div>
+                <div class="tab-pane fade" id="addons">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

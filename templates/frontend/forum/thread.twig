@@ -1,0 +1,30 @@
+{% extends "frontend/layout.twig" %}
+{% block pageContent %}
+    <div class="mb10 clearfix">
+        <h1 class="mt0 inline-block">{{ thread.threadName }}</h1>
+        <div>Discussion in '<a href="/{{ thread.board2Link }}">{{ thread.board2Name }}</a>' started by <a href="/{{ thread.creatorLink }}">{{ thread.creatorName }}</a>, {{ thread.creatorDate|date('d.m.Y') }}.</div>
+        {% if hasPermission("forum") %}
+            <a href="{{ baseUrl }}forum/close/{{ thread.id }}" class="btn btn-primary pull-right">{{ __("Close topic", 'CloseTopic', 'Forum') }}</a>
+            {% if thread.threadClosed == 0 %}
+                <a href="{{ baseUrl }}forum/delete/{{ thread.id }}" class="btn btn-danger pull-right mr10"><span class="icon ion-trash-b"></span></a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% for entrie in entries %}
+        {% include "frontend/forum/thread_item.twig" %}
+    {% endfor %}
+
+    {% if thread.threadClosed == 1 %}
+        <div class="alert alert-info">{{ __("Dieses Thema ist geschlossen. Weitere Antworten sind nicht mehr möglich", "ThreadClosed", "Forum") }}</div>
+    {% endif %}
+
+    {% if User is not empty and thread.threadClosed == 0 %}
+        {% include "frontend/forum/thread_item.twig" with {'entrie' : userEntrie, ad: true, newPost: true} %}
+        <div class="pull-right mb10">
+            <a class="btn btn-primary" href="#" id="answertrigger">{{ __("Neue Antwort erstellen", "CreateNewAnswer", "Forum") }}</a>
+        </div>
+    {% endif %}
+
+    {% include "frontend/_includes/pagination.twig" %}
+{% endblock %}

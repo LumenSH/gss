@@ -1,0 +1,88 @@
+.ctl_index {
+	.panel-heading {
+		a {
+			color: #FFFFFF;
+			float: right;
+		}
+		a:hover + a:active + a:focus {
+			color: #FFFFFF;
+			text-decoration: underline;
+		}
+	}
+	.progress {
+		.progress-bar {
+			a {
+				color: #FFFFFF;
+			}
+			a:hover + a:active + a:focus {
+				color: #FFFFFF;
+				text-decoration: underline;
+			}
+		}
+	}
+	hr {
+		border-top-color: #000000;
+	}
+	.date {
+		display: block;
+		width: 100px;
+		height: 110px;
+		margin: 30px auto;
+		background: #fff;
+		text-align: center;
+		font-family: 'Helvetica', sans-serif;
+		position: relative;
+		.binds {
+			position: absolute;
+			height: 15px;
+			width: 60px;
+			background: transparent;
+			border: 2px solid #999;
+			border-width: 0 5px;
+			top: -6px;
+			left: 0;
+			right: 0;
+			margin: auto;
+		}
+		.month {
+			background: @primary;
+			display: block;
+			padding: 8px 0;
+			color: #fff;
+			font-size: 12px;
+			font-weight: bold;
+			border-bottom: 2px solid @primary;
+			box-shadow: inset 0 -1px 0 0 @primary;
+		}
+		.day {
+			display: block;
+			margin: 0;
+			padding: 10px 0;
+			font-size: 48px;
+			box-shadow: 0 0 3px #ccc;
+			position: relative;
+			&::before {
+				content: '';
+				display: block;
+				height: 100%;
+				width: 90%;
+				position: absolute;
+				top: 6px;
+				left: 5%;
+				z-index: -1;
+				box-shadow: 0 0 3px #ccc;
+			}
+			&::after {
+				content: '';
+				display: block;
+				height: 100%;
+				width: 96%;
+				position: absolute;
+				top: 3px;
+				left: 2%;
+				z-index: -1;
+				box-shadow: 0 0 3px #ccc;
+			}
+		}
+	}
+}

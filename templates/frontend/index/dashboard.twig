@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-md-8">
+        {% for blogItem in blog.items %}
+            {% include "frontend/blog/listing_item.twig" %}
+        {% endfor %}
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                {% if serverUsage is not empty %}
+                    <section class="clearfix mb20">
+                        <h2 class="mt0">{{ __("Status", "head_status", "Index") }}</h2>
+                        <div class="clearfix">
+                            <div class="pull-left">
+                                <b>{{ __("Laufende Server:", "running_servers", "Index") }}</b>
+                            </div>
+                            <div class="pull-right">
+                                <span class="label label-default">{{ stats.onlineServer }}</span>
+                            </div>
+                        </div>
+
+                        <div class="clearfix">
+                            <b>{{ __("Our servers", 'OurServers', 'Index') }}:</b>
+                        </div>
+
+                        {% for host in serverUsage.hosts %}
+                            <div class="clearfix">
+                                <div class="pull-left">
+                                    <b>Host #{{ host.id }} {{ host.ip }}{% if host.description is not empty %} ({{ host.description }}){% endif %}</b>
+                                </div>
+                                <div class="pull-right">
+                                    <span class="label label-success">Online</span>
+                                </div>
+                            </div>
+                            <b>CPU:</b>
+                            <div class="progress mt5 mb5">
+                                <div class="progress-bar progress-bar-striped active {% if host.avg >= 0.90 %}progress-bar-danger{% elseif host.avg >= 0.50 %}progress-bar-warning{% else %}progress-bar-success{% endif %}" role="progressbar" style="width: {{ host.avg * 100 }}%;">
+                                    {{ (host.avg * 100) }}%
+                                </div>
+                            </div>
+                            <b>Memory:</b>
+                            <div class="progress mt5 mb20">
+                                <div class="progress-bar progress-bar-striped active {% if host.memory >= 0.90 %}progress-bar-danger{% elseif host.memory >= 0.50 %}progress-bar-warning{% else %}progress-bar-success{% endif %}" role="progressbar" style="width: {{ host.memory * 100 }}%;">
+                                    {{ (host.memory * 100) }}%
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </section>
+                    <section class="clearfix mb20">
+                        <h2 class="mt0">{{ __("Teile uns!", "head_shareus", "Index") }}</h2>
+                        <p>{{ __("Dir gefällt unser Projekt und du möchtest uns unterstützen? Dann zeig es doch auch deinen Freunden indem du unsere Seite auf Facebook Teilst!", "text_shareus", "Index") }}</p>
+                        <div class="fb-like" data-href="https://www.facebook.com/pages/Gameserver-sponsorde/446652102122036" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                    </section>
+                    <section>
+                        <h2 class="mt0">{{ __("Statistiken", "Stats", "Index") }}</h2>
+                        <b>{{ __("Registrierte User:", "users_registered", "Index") }}</b>
+                        <span class="pull-right">{{ stats.userCount }}</span><br>
+                        <b>{{ __("Aktive Server:", "active_servers", "Index") }}</b>
+                        <span class="pull-right">{{ stats.activeCount }}</span><br>
+                        <b>{{ __("Passive Server:", "passive_servers", "Index") }}</b>
+                        <span class="pull-right">{{ stats.passiveCount }}</span>
+                    </section>
+                {% endif %}
+                <a class="mt10 block discord" href="https://discord.gg/HwVWG45" target="_blank">
+                    <div class="discord-img">
+                        {% include "frontend/_includes/discord.svg" %}
+                    </div>
+                    <span class="txt-white">Join now!</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

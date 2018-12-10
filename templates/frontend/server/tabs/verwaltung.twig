@@ -1,0 +1,121 @@
+{# GS Aufgaben #}
+{% include "frontend/server/taskList.twig" %}
+{% if gs.state == 0 %}
+    <div class="alert alert-success" id="gsOnline" style="display: none">
+        {{ __("Dein Server ist momentan<strong> Online!</strong>", "Online", "Server") }}
+    </div>
+    <div class="alert alert-danger" id="gsOffline" style="display: none">
+        {{ __("Dein Server ist momentan<strong> Offline!</strong>", "Offline", "Server") }}
+    </div>
+{% endif %}
+<div class="row">
+    {% if gs.state != 4 %}
+        <div class="col-md-8">
+            <div class="hidden-xs">
+                <div class="btn-toolbar">
+                    <div class="btn-group btn-group-lg btn-group-justified mb20">
+                        {% if gsObj.hasPermission("start") %}
+                            <a href="#" class="btn btn-success" data-start-server="true">{{ __("Server starten", "start", "Server") }}</a>
+                        {% endif %}
+                        {% if gsObj.hasPermission("stop") %}
+                            <a href="#" class="btn btn-danger" data-stop-server="true">{{ __("Server stoppen", "stop", "Server") }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if gs.userID == User.id or hasPermission('admin_gameserver') %}
+                    <div class="btn-group btn-group-justified">
+                        <a data-toggle="modal" data-target="#modalUpdate" id="updateServer" class="btn btn-default">{{ __("Server Update", "update", "Server") }}</a>
+                        <a data-toggle="modal" data-target="#modalReinstall" class="btn btn-default">{{ __("Server Neuinstallation", "reinstall", "Server") }}</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="visible-xs">
+                {% if gsObj.hasPermission("start") %}
+                    <a href="#" class="btn btn-success mbm block" data-start-server="true">{{ __("Server starten", "start", "Server") }}</a>
+                {% endif %}
+                {% if gsObj.hasPermission("stop") %}
+                    <a href="#" class="btn btn-danger mbm block" data-stop-server="true">{{ __("Server stoppen", "stop", "Server") }}</a>
+                {% endif %}
+                {% if gs.userID == user.id or hasPermission('admin_gameserver') %}
+                    <a data-toggle="modal" data-target="#modalUpdate" class="btn btn-default mbm block">{{ __("Server Update", "update", "Server") }}</a>
+                    <a data-toggle="modal" data-target="#modalReinstall" class="btn btn-default mbm block">{{ __("Server Neuinstallation", "reinstall", "Server") }}</a>
+                {% endif %}
+            </div>
+
+            {% if hasPermission('admin_gameserver_delete') %}
+                <a class="btn btn-danger btn-block mt30" href="{{ baseUrl }}server/adminDelete/{{ gs.id }}">Server löschen (Admin)</a>
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="col-md-4 mt20-xs">
+		<table style="width: 100%;">
+            {% if gs.game == "mc" and gs.cloudflaredomain is not empty %}
+                <tr>
+                    <td style="width: 40%"><strong>Domain:</strong></td>
+                    <td>{{ gs.cloudflaredomain }}</td>
+                </tr>
+            {% endif %}
+			<tr>
+				<td style="width: 40%;"><strong>{{ __("IPv4-Adresse:", "ipv4", "Server") }}</strong> </td>
+				<td> {{ gs.IP }}:{{ gs.port }}</td>
+			</tr>
+			<tr>
+				<td><strong>{{ __("Server bestellt am:", "purchaseDate", "Server") }}</strong> </td>
+				<td> {{ gs.createdAt|date("d.m.Y") }}</td>
+			</tr>
+			<tr>
+				<td><strong>{{ __("Hostsystem:", "HostSystem", "Server") }}</strong> </td>
+				<td> Gameserver-Host #{{ gs.gameRootID }}</td>
+			</tr>
+			<tr>
+				<td><strong>{{ __("Slots:", "Slots", "Server") }}</strong> </td>
+				<td> {{ gs.slot }} {{ __("Spieler", "player", "Server") }}</td>
+			</tr>
+			<tr>
+				<td><strong>{{ __("Spiel:", "Game", "Server") }}</strong> </td>
+				<td> {{ gs.name }}</td>
+			</tr>
+			<tr>
+				<td><strong>{{ __("Server Version:", "GameserverVersion", "Server") }}</strong> </td>
+				<td> {{ gs.version }}</td>
+			</tr>
+			<tr>
+				<td><strong>{{ __("Servertyp:", "ServerType", "Server") }}</strong> </td>
+				<td> {% if gs.typ == 0 %}{{ __("Aktiver Server", "Aktiveserver", "Server") }}{% else %}{{ __("Passiver Server", "Passiveserver", "Server") }}{% endif %}</td>
+			</tr>
+            {% if hasPermission("admin_gameserver") %}
+                <tr>
+                    <td><strong>Server-Ordner</strong></td>
+                    <td>{{ gs.path }}</td>
+                </tr>
+            {% endif %}
+            {% if gs.userID == User.id or hasPermission('admin_gameserver') %}
+                {% if gs.typ == 0 %}
+                    <tr><td><strong>{{ __("Server läuft bis:", "duration", "Server") }}</strong></td><td> {{ gs.duration|date('d.m.Y') }}</td></tr> <tr><td colspan="2"><a class="btn btn-primary btn-xs btn-block" href="#modalUpgrade" data-toggle="modal">{{ gs.duration|getBetween() }} {{ __("Tage Verbleibend | <strong>Verlängern</strong>", "buttonaddtime", "Server") }}</a></td></tr>
+                    {% if gs.state != 4 %}
+                        <tr>
+                            <td colspan="2">
+                                <div class="mvs mt10">
+                                    <a class="btn btn-danger btn-xs btn-block" data-toggle="modal" data-target="#modalDelete" href="#">Server löschen</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% else %}
+					{% if gs.state == 0 %}
+						<tr><td colspan="2"><div class="mvs"><a class="btn btn-danger btn-xs btn-block" data-toggle="modal" data-target="#modalDelete" href="#">Server löschen</a></div></td></tr>
+					{% endif %}
+				{% endif %}
+                <tr>
+                    <td colspan="2">
+                        <a href="#" data-toggle="modal" data-target="#modalRename" class="btn btn-info btn-block mt10">{{ __("Server umbenennen", "RenameServer", "Server") }}</a>
+                    </td>
+                </tr>
+			{% endif %}
+		</table>
+        {% if gs.game == "mc" %}
+            <a data-toggle="modal" data-target="#editDomain" class="btn btn-default btn-block mt10">{{ __("Domain setzen", "ChangeDomain", "Cloudflare") }}</a>
+        {% endif %}
+        <a href="{{ baseUrl }}support/new?typ=1&gameserver={{ gs.id }}" class="btn btn-info btn-block mt10">{{ __('Create new Support Ticket', 'CreateGameserverTicket', 'Server') }}</a>
+    </div>
+</div>

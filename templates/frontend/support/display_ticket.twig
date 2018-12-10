@@ -1,0 +1,31 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>{{ pageTitle }}</h4>
+        </div>
+        <div class="panel-body">
+            {% for answer in ticket.answers %}
+                <div class="row mb20">
+                    <div class="col-sm-6 col-xs-12{% if answer.support == 0 %} pull-right{% endif %}">
+                        <div class="message{% if answer.support == 0 %} message-own{% else %} message-supporter{% endif %}">
+                            <div class="message-content">
+                                {{ answer.message|raw }}
+                            </div>
+                            <div class="message-date">
+                                {{ answer.username }} - {{ answer.date|date('d.m.Y H:i') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if ticket.folder == 0 %}
+                <form method="post" class="mt30">
+                    <textarea data-ckeditor="true" name="answer"></textarea>
+                    <button class="mt20 btn btn-primary pull-right">{{ __("Antworten", "Answer", "Support") }}</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

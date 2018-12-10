@@ -1,0 +1,25 @@
+<div class="alert alert-info">
+    {{ __("Unsere Passiven Server schalten sich automatisch ab wenn keine Spieler drauf spielen.", "PassiveServerInfo", "Shop") }}
+</div>
+<div class="list-group">
+    {% for passiveServer in passiveServers %}
+        <div class="list-group-item">
+            <div class="row-action-primary mr10">
+                {% if passiveServer.img is not empty %}
+                    <img src="{{ baseUrl }}uploads/games/{{ passiveServer.img }}" width="80">
+                {% endif %}
+            </div>
+            <div class="row-content">
+                <div class="action-secondary"><i class="mdi-material-info"></i></div>
+                <h4 class="list-group-item-heading">{{ passiveServer.name }}</h4>
+                <p class="list-group-item-text">
+                    {{ passiveServer['description_' ~ request.language] }}
+                <p>
+                    <a href="{{ baseUrl }}shop/buyPackage/{{ passiveServer.minimumGPID }}" class="btn btn-primary btn-xs">{{ __('Create %game% Server now', 'PassiveServerCreate', 'Shop', {game: passiveServer.name}) }}</a></p>
+            </div>
+        </div>
+        {% if not loop.last %}
+            <div class="list-group-separator"></div>
+        {% endif %}
+    {% endfor %}
+</div>

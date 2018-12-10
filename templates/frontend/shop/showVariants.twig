@@ -1,0 +1,50 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="mt10">{{ __("Shop", "HeadShop", "Shop") }}</h3>
+        </div>
+        <div class="panel-body">
+            {% if User is not empty %}
+            <div class="col-md-8 col-sm-12">
+                {% endif %}
+                {% for variant in variants %}
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img class="img-responsive" src="{{ baseUrl }}uploads/games/{{ variant.img }}">
+                        </div>
+                        <div class="col-sm-9 mt10-xs">
+                            <h4 class="list-group-item-heading">{{ variant.name }} {{ variant.slots }} {{ __("Slots", "Slots", "Shop") }}</h4>
+                            <ul>
+                                <li>{{ variant.slots }} {{ __("Slot", "Slot", "Shop") }}</li>
+                                <li>{{ User.Maxmysql }} {{ __("Datenbank Accounts", "DatabaseAccounts", "Shop") }}</li>
+                                <li>{{ User.Maxftp }} {{ __("FTP Accounts", "FTPAccounts", "Shop") }}</li>
+                                <li>{% if variant.type == 0 %}{{ __("24/7 Online", "24/7Online", "Shop") }}{% else %}{{ __("Schaltet sich ab sobald keiner mehr Online ist", "PassiveOnline", "Shop") }}{% endif %}</li>
+                                <li>{{ User.Maxgast }} {{ __("Gastzugänge", "GuestAccounts", "Shop") }}</li>
+                                <li>Control Panel</li>
+                            </ul>
+                            <p>
+                            <h5>{{ __("Kosten:", "Cost", "Shop") }} <b>{{ variant.gp|number_format(0,'.','.') }}
+                                    GP</b> {{ __("im Monat", "perMonth", "Shop") }}</h5>
+                            <p>
+                                {% if User is not empty %}
+                                <a href="{{ baseUrl }}shop/buyPackage/{{ variant.id }}"
+                                   class="btn btn-primary btn-xs">{{ __("Dieses Packet jetzt bestellen", "Buy now", "Shop") }}</a>
+                            </p>
+                            {% else %}
+                                <div class="alert alert-danger">{{ __("Bitte logge dich ein um fortzufahren", "LoginToContinue", "Shop") }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+                {% if User is not empty %}
+            </div>
+            <div class="col-md-4 col-xs-12">
+                {% include("frontend/shop/_includes/feautres.twig") %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

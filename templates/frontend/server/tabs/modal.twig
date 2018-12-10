@@ -1,0 +1,264 @@
+<div class="modal" id="modalReinstall">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="man">{{ __("Server Neuinstallieren", "ServerReinstall", "Server") }}</h4>
+            </div>
+            <form method="post" action="{{ baseUrl }}server/addTask/{{ gs.id }}/GSReinstall">
+                <div class="modal-body">
+                    {% if gsVersions is not empty %}
+                        <div class="form-group">
+                            <label>{{ __("Server Version:", "ServerVersion", "Server") }}</label>
+                            <select name="version" class="form-control">
+                                {% for key, version in gsVersions %}
+                                    <option value="{{ key }}">{{ version }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% else %}
+                        <input type="hidden" name="version" value="default">
+                    {% endif %}
+                    <input type="hidden" name="step" value="1">
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-danger" value="{{ __("Neuinstallieren", "ButtonReinstall", "Server") }}">
+                    <a type="button" class="btn btn-primary" data-dismiss="modal">{{ __("Schliessen", "Close", "Server") }}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modalUpdate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="man">{{ __("Server Updaten", "ServerUpdate", "Server") }}</h4>
+            </div>
+            <form method="post" action="{{ baseUrl }}server/addTask/{{ gs.id }}/GSUpdate">
+                <div class="modal-body">
+                    {% if gsVersions is not empty %}
+                        <div class="form-group">
+                            <label>{{ __("Server Version:", "ServerVersion", "Server") }}</label>
+                            <select name="version" class="form-control">
+                                {% for key, version in gsVersions %}
+                                    <option value="{{ key }}">{{ version }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% else %}
+                        <input type="hidden" name="version" value="default">
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-danger" value="{{ __("Updaten", "ButtonUpdate", "Server") }}">
+                    <a type="button" class="btn btn-primary" data-dismiss="modal">{{ __("Schliessen", "Close", "Server") }}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modalUpgrade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="man">{{ __("Server Verlängern", "Modal/Head", "Server") }}</h4>
+            </div>
+            <form method="post" action="{{ baseUrl }}server/extendTime/{{ gs.id }}">
+                <div class="modal-body">
+                    <b>{{ __("Wähle eine Verlängerung", "Choosetime/Modal/Head", "Server") }}</b>
+                    <select class="form-control mbm" name="verlaegern">
+                        <option value="1">{{ __("7 Tage +(10%)", "Choosetime/7days/select", "Server") }}</option>
+                        <option value="2">{{ __("14 Tage +(5%)", "Choosetime/14days/select", "Server") }}</option>
+                        <option value="3">{{ __("30 Tage", "Choosetime/30days/select", "Server") }}</option>
+                        <option value="4">{{ __("60 Tage -(2%)", "Choosetime/60days/select", "Server") }}</option>
+                        <option value="5">{{ __("90 Tage -(5%)", "Choosetime/90days/select", "Server") }}</option>
+                    </select>
+                    <b>{{ __("Verlängerung Kostet:", "Timecost", "Server") }}</b> <span class="pull-right" data-servercoast="true" data-currentcoast="{{ gs.price }}">500 GP</span><br>
+                    <b>{{ __("Dein Kontostand:", "YourGP", "Server") }}</b> <span class="pull-right" data-gpcount="true" data-gp="{{ User.GP }}">{{ User.GP }} GP</span><br>
+                    <hr style="border-color: black;" class="mvs">
+                    <b>{{ __("Dein Kontostand nach dem Kauf:", "YourGPAfterBuy", "Server") }}</b> <span class="pull-right" data-serversumme="true">500 GP</span><br>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="{{ __("Server Verlängern", "ServerRenew", "Server") }}">
+                    <a type="button" class="btn btn-info" data-dismiss="modal">{{ __("Schliessen", "Button/Close", "Server") }}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modalDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="man">{{ __("Server Löschen", "ServerDelete", "Server") }}</h4>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    {{ __("Bist du dir sicher das du deinen GameServer löschen möchtest?", "SecureGameServerDelete", "Server") }}
+                    {% if gs.Typ == 0 %}
+                    <p>{{ __('Du erhälst <b>95%</b> deines Ausgegeben GPs zurück.', 'ServerBackGPInfo', 'Server') }}</p>
+                    {% endif %}
+                    <span class="txt-red block">{{ __("Dieser Vorgang kann nicht wieder rückgängig gemacht werden!", "SecureGameServerNotUndo", "Server") }}</span>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-danger" href="{{ baseUrl }}server/deleteServer/{{ gs.id }}">{{ __("Löschen", "Delete", "Server") }}</a>
+                    <a type="button" class="btn btn-info" data-dismiss="modal">{{ __("Schliessen", "Close", "Server") }}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modalRights">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="man">{{ __("Server Rechte bearbeiten", "ServerRightsEdit", "Server") }}</h4>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>E-Mail:</label>
+                        <input type="text" name="user" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Rechte:</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="block">
+                                    <input type="checkbox" name="start" value="1">{{ __("Start", "Start", "Server") }}
+                                </label>
+                                <label class="block">
+                                    <input type="checkbox" name="konsole" value="1">{{ __("Konsole", "Consol", "Server") }}
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="block">
+                                    <input type="checkbox" name="restart" value="1">{{ __("Neustart", "Restart", "Server") }}
+                                </label>
+                                <label class="block">
+                                    <input type="checkbox" name="config" value="1">{{ __("Config-Editor", "ConfigEditor", "Server") }}
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="block">
+                                    <input type="checkbox" name="stop" value="1">{{ __("Stop", "Stop", "Server") }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-right-save="true">{{ __("Speichern", "Save", "Server") }}</button>
+                    <a type="button" class="btn btn-info" data-dismiss="modal">{{ __("Schliessen", "Close", "Server") }}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editDatabase" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __("Datenbankzugang bearbeiten", "editdatabse", "Server") }}</h4>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false;">
+                    <div class="form-group">
+                        <label>{{ __("Datenbank Name:", "editdatabasename", "Server") }}</label>
+                        <input type="text" class="form-control" name="databaseName" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ __("Datenbank Passwort:", "editdatabasepassword", "Server") }}</label>
+                        <input type="password" class="form-control" name="databasePassword" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ __("Beschreibung:", "editdescription", "Server") }}</label>
+                        <textarea class="form-control" name="databaseDescription" autocomplete="off"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">{{ __("Speichern", "editdatabsesave", "Server") }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __("Abbrechen", "editdatabasecancel", "Server") }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editFTP" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __("FTP bearbeiten", "ftpedit", "Server") }}</h4>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false;">
+                    <div class="form-group">
+                        <label>{{ __("FTP Name:", "editftpname", "Server") }}</label>
+                        <input type="text" class="form-control" name="name" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ __("FTP Passwort:", "editftppassword", "Server") }}</label>
+                        <input type="password" class="form-control" name="passwd" autocomplete="off">
+                    </div>
+                    <input type="hidden" name="homedir" value="">
+                    <div class="form-group">
+                        <label>{{ __("Beschreibung:", "editftpdescription", "Server") }}</label>
+                        <textarea class="form-control" name="description" autocomplete="off"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">{{ __("Speichern", "editftpsavebutton", "Server") }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __("Abbrechen", "editftpcancelbutton", "Server") }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editDomain">
+    <div class="modal-dialog">
+        <form class="modal-content" action="{{ baseUrl }}server/setDomain/{{ gs.id }}" onsubmit="return false;">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __("Domain setzen", "ChangeDomain", "Cloudflare") }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Domain</label>
+                    <select class="form-control" name="domain">
+                        {% for domain in cloudflare_domains %}
+                            <option>{{ domain }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Subdomain</label>
+                    <input class="form-control" name="subdomain">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">{{ __("Speichern", "editftpsavebutton", "Server") }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __("Abbrechen", "editftpcancelbutton", "Server") }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modalRename">
+    <div class="modal-dialog">
+        <form class="modal-content" action="{{ baseUrl }}server/setName/{{ gs.id }}" onsubmit="return false;">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __("Server umbenennen", "RenameServer", "Server") }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input class="form-control" name="name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">{{ __("Speichern", "editftpsavebutton", "Server") }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __("Abbrechen", "editftpcancelbutton", "Server") }}</button>
+            </div>
+        </form>
+    </div>
+</div>

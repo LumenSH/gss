@@ -1,0 +1,68 @@
+<article class="post" itemscope itemtype="https://schema.org/Article">
+    {# Seo #}
+    <meta itemprop="datePublished" content="{{ blogItem.date|date("Y-m-d") }}"/>
+    <meta itemprop="dateModified" content="{{ blogItem.date|date("Y-m-d") }}"/>
+    <meta itemprop="commentCount" content="{{ blogItem.comments|length }}"/>
+    <meta itemprop="keywords" content="{{ blogItem.tags }}"/>
+    <meta itemprop="author" content="{{ blogItem.author }}"/>
+    <meta itemprop="url" content="{{ request.url }}">
+    <meta itemprop="mainEntityOfPage" content="{{ request.url }}">
+    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+            <meta itemprop="url" content="{{ baseUrl }}src/img/logo.png">
+            <meta itemprop="width" content="360">
+            <meta itemprop="height" content="66">
+        </div>
+        <meta itemprop="name" content="{{ blogItem.author }}">
+    </div>
+    <span itemprop="image" itemscope itemtype="https://schema.org/ImageObject" style="display: none">
+        <meta itemprop="url" content="{{ path('index') }}uploads/blog/{{ blogItem.image }}">
+        <meta itemprop="width" content="400">
+        <meta itemprop="height" content="400">
+    </span>
+
+    <header class="pos-relative" style="background-image: url({{ baseUrl }}uploads/blog/{{ blogItem.image }});{{ blogItem.cssListing }}">
+        <div class="entry-date hidden-xs">
+            <time class="published">
+                <span class="posted-month">{{ blogItem.month }}</span>
+                <span class="posted-date">{{ blogItem.date|date('d') }}</span>
+                <span class="posted-year">{{ blogItem.date|date('Y') }}</span>
+            </time>
+        </div>
+        <h2 class="entry-title">
+            <a class="entry-link" itemprop="headline" href="{{ baseUrl }}{{ blogItem.url }}">
+                {{ blogItem.title }}
+            </a>
+        </h2>
+    </header>
+    <main class="entry-content">
+        <p class="">
+            {{ blogItem.content|striptags|truncate(300)|raw }}
+        </p>
+    </main>
+    <footer>
+        <div class="row pa10">
+            <div class="col-sm-4 col-xs-6">
+                <a href="{{ baseUrl }}user/{{ blogItem.author|lower }}">
+                    {{ avatar(blogItem.Avatar, "post-image") }}
+                    <span class="ml10 post-author">{{ blogItem.author }}</span>
+                </a>
+            </div>
+            <div class="col-sm-5 col-xs-6 col-sm-offset-3">
+                <div class="pull-right">
+                    <a class="mr10 hidden-xs" href="{{ baseUrl }}{{ blogItem.url }}" data-disabled="true">
+                        <span class="fz-28 lh-35 icon {% if blogItem.liked == 0 %}ion-ios-heart-outline txt-gray{% else %}ion-ios-heart txt-red{% endif %}" data-like="true" data-id="{{ blogItem.id }}" data-section="blog" data-liked="{{ blogItem.liked }}"></span>
+                        <span class="ml10 icon-text" data-like-badge="true">{{ blogItem.likes }}</span>
+                    </a>
+                    <a href="{{ baseUrl }}{{ blogItem.url }}#comments" class="mr20 hidden-xs">
+                        <span class="icon lh-35 ion-ios-chatbubble-outline"></span>
+                        <span class="ml10 icon-text">{{ blogItem.comments }}</span>
+                    </a>
+                    <a href="{{ baseUrl }}{{ blogItem.url }}" class="pull-right more-read pv5 ph15">
+                        {{ __("mehr lesen", 'readMore', 'Blog') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</article>

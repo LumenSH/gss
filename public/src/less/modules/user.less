@@ -1,0 +1,71 @@
+.ctl_user.act_view {
+    .nav-tabs {
+        li:not(.active) {
+            a {
+                color: @brand-primary;
+            }
+        }
+        li {
+            a:hover {
+                color: #fff;
+            }
+        }
+    }
+
+
+    .user-container {
+        background: #fff;
+        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+    }
+    .user-registered-since {
+        position: absolute;
+        right: 0;
+        top: 20px;
+    }
+    .memberWrapper {
+        position: absolute;
+        bottom: -25px;
+        left: 16px;
+        right: 16px;
+    }
+    .memberBanner {
+        background: #e44545;
+        margin: 5px -15px;
+        text-align: center;
+        color: #fff;
+        position: relative;
+
+        span {
+            position: absolute;
+            top: -4px;
+            width: 5px;
+            height: 4px;
+            background-color: inherit;
+
+            &.before {
+                border-top-left-radius: 3px;
+                left: 0;
+            }
+            &.after {
+                border-top-right-radius: 3px;
+                right: 0;
+            }
+        }
+    }
+    .userSidebar {
+        background: #F3f3f3;
+        img {
+            margin: 15px auto;
+        }
+        hr {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .user-details {
+            margin-bottom: 10px;
+        }
+    }
+    .tab-pane {
+        border: 1px solid #f3f3f3;
+    }
+}

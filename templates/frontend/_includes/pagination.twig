@@ -1,0 +1,47 @@
+{% if addionalParams is empty %}
+    {% set addionalParams = '' %}
+{% endif %}
+{% if maxPage > 1 %}
+    <nav class="center-items">
+        <ul class="pagination">
+            {% if currentPage != 1 %}
+                <li>
+                    <a href="?page={{ currentPage -1 }}{{ addionalParams }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for i in 1..3 %}
+                {% if i != currentPage and i < currentPage %}
+                    <li><a href="?page={{ i }}{{ addionalParams }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            <li class="active"><a href="#">{{ currentPage }}</a></li>
+            {% for i in 1..3 %}
+                {% if currentPage + i <= maxPage %}
+                    <li><a href="?page={{ currentPage + i }}{{ addionalParams }}">{{ currentPage + i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if currentPage < maxPage %}
+                <li>
+                    <a href="?page={{ currentPage + 1 }}{{ addionalParams }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

@@ -1,0 +1,22 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <form method="post">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-head">
+                    {{ pageTitle }}
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="alert alert-info">{{ __("Please create forum posts in english or german.", 'LanguageHint', 'Forum') }}</div>
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+
+                <input type="submit" class="btn btn-primary pull-right" value="{% if entrie is not defined %}{{ __("Erstellen", 'Create', 'Forum') }}{% else %}{{ __('Bearbeiten', 'Edit', 'Forum') }}{% endif %}">
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </form>
+{% endblock %}

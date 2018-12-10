@@ -1,0 +1,46 @@
+.ctl_support {
+    .message {
+        padding: 10px 8px;
+        color: @white;
+        border-radius: 20px;
+
+        &.message-own {
+            background: @blue-500;
+        }
+        &.message-supporter {
+            background: @teal-500;
+        }
+        .message-date {
+            position: absolute;
+            right: 35px;
+            bottom: 0;
+        }
+        .message-content {
+            padding-left: 10px;
+        }
+    }
+}
+
+[ng-app="gsBackend"] {
+    .message {
+        padding: 10px 8px;
+        color: @white;
+        border-radius: 20px;
+
+        &.message-own {
+            background: @blue-500;
+        }
+        &.message-supporter {
+            background: @teal-500;
+        }
+        .message-date {
+            position: absolute;
+            right: 35px;
+            bottom: 0;
+        }
+        .message-content {
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+    }
+}

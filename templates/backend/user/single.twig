@@ -1,0 +1,182 @@
+{% verbatim %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2>Kunde {{ user.Username }} bearbeiten</h2>
+        <ul class="nav nav-tabs">
+            <li ng-class="$tab == 'detail' ? 'active' : ''">
+                <a ng-click="$tab = 'detail'">Allgemein</a>
+            </li>
+            {% endverbatim %}
+            {% if hasPermission("admin_user_limit") %}
+            <li ng-class="$tab == 'limit' ? 'active' : ''">
+                <a ng-click="$tab = 'limit'">Limitierungen</a>
+            </li>
+            {% endif %}
+            {% verbatim %}
+            <li ng-class="$tab == 'block' ? 'active' : ''">
+                <a ng-click="$tab = 'block'">Sperre</a>
+            </li>
+            <li ng-class="$tab == 'gp' ? 'active' : ''">
+                <a ng-click="$tab = 'gp'">GP-Historie</a>
+            </li>
+            <li ng-class="$tab == 'servers' ? 'active' : ''">
+                <a ng-click="$tab = 'servers'">Server</a>
+            </li>
+            <li ng-class="$tab == 'email' ? 'active' : ''">
+                <a ng-click="$tab = 'email'">Email</a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body" ng-class="($tab == 'gp' || $tab == 'servers') ? 'pa0' : ''">
+        <form ng-submit="saveUser()">
+            <div class="tab-content">
+                <div class="tab-pane fade" ng-class="$tab == 'detail' ? 'in active' : ''">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>E-Mail:</label>
+                                <input class="form-control" type="email" ng-model="user.Email">
+                            </div>
+                            <div class="form-group">
+                                <label>Username:</label>
+                                <input class="form-control" type="text" ng-model="user.Username" disabled>
+                            </div>
+                            {% endverbatim %}
+                            {% if hasPermission("admin_user_role") %}
+                                <div class="form-group">
+                                    <label>Benutzerrolle:</label>
+                                    <select ng-model="user.Role" class="form-control">
+                                        <option value="default">Kunde</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="supporter">Supporter</option>
+                                    </select>
+                                </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label>SMS:</label>
+                                <input class="form-control" type="text" ng-model="user.sms">
+                            </div>
+                            {% verbatim %}
+                        </div>
+                        <div class="col-sm-6">
+                            {% endverbatim %}
+                            {% if hasPermission("admin_user_gp") %}
+                            <div class="form-group">
+                                <label>GP:</label>
+                                <input class="form-control" type="text" ng-model="user.GP">
+                            </div>
+                            {% endif %}
+                            {% if hasPermission("admin_user_password") %}
+                            <div class="form-group">
+                                <label>Passwort:</label>
+                                <input class="form-control" type="password" ng-model="user.Password">
+                            </div>
+                            <div class="form-group">
+                                <label>Google Authentifikationscode:</label>
+                                <input class="form-control" type="text" ng-model="user.Auth">
+                            </div>
+                            {% endif %}
+                            {% verbatim %}
+                        </div>
+                    </div>
+                </div>
+                {% endverbatim %}
+                {% if hasPermission("admin_user_limit") %}
+                <div class="tab-pane fade" ng-class="$tab == 'limit' ? 'in active' : ''">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Maximale FTP-Zugänge:</label>
+                                <input class="form-control" type="text" ng-model="user.MaxFTP">
+                            </div>
+                            <div class="form-group">
+                                <label>Maximale Gast-Zugänge:</label>
+                                <input class="form-control" type="text" ng-model="user.MaxGast">
+                            </div>
+                            <div class="form-group">
+                                <label>Maximale MySQL-Zugänge:</label>
+                                <input class="form-control" type="text" ng-model="user.MaxMySQL">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Maximale Server:</label>
+                                <input class="form-control" type="text" ng-model="user.MaxServer">
+                            </div>
+                            <div class="form-group">
+                                <label>Maximale Slots:</label>
+                                <input class="form-control" type="text" ng-model="user.MaxSlots">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if hasPermission('admin_user_lock') %}
+                {% verbatim %}
+                <div class="tab-pane fade" ng-class="$tab == 'block' ? 'in active' : ''">
+                    <div class="form-group">
+                        <label>Sperrgrund:</label>
+                        <textarea class="form-control" ng-model="user.Inhibition"></textarea>
+                    </div>
+                </div>
+                {% endverbatim %}
+                {% endif %}
+                {% verbatim %}
+                <div class="tab-pane fade" ng-class="$tab == 'gp' ? 'in active' : ''">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Aktion</th>
+                            <th>GP</th>
+                            <th>Art</th>
+                            <th>Datum</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="history in gphistory.data">
+                        <tr>
+                            <td>{{ history.name }}</td>
+                            <td>{{ history.value }}</td>
+                            <td>{{history.status == "in" ? "Erhalten" : "Ausgegeben"}}</td>
+                            <td>{{ history.timestamp|date:'dd.MM.yyyy hh:MM:ss' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" ng-class="$tab == 'servers' ? 'in active' : ''">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>IP</th>
+                                <th>Spiel</th>
+                                <th>Rechte</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="server in servers">
+                                <td>{{ server.id }}</td>
+                                <td>{{ server.IP }}:{{ server.Port }}</td>
+                                <td>{{ server.Game }}</td>
+                                <td>{{ server.Rights }}</td>
+                                <td><a href="/server/{{ server.Url }}" target="_blank" class="btn btn-primary">Zum Server wechseln</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" ng-class="$tab == 'email' ? 'in active' : ''">
+                    <div class="form-group">
+                        <label>Betreff</label>
+                        <input type="text" ng-model="subject" placeholder="Betreff" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <ng-simditor content="message"></ng-simditor>
+                    </div>
+                    <a class="btn btn-primary pull-right clickable" ng-click="sendMessage()">Nachricht senden</a>
+                </div>
+            </div>
+            <button class="btn btn-primary pull-right" ng-class="$tab == 'email' ? 'hidden' : ''">Speichern</button>
+        </form>
+    </div>
+</div>
+{% endverbatim %}

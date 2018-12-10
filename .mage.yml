@@ -1,0 +1,33 @@
+magephp:
+    log_dir: ./logs
+    environments:
+        production:
+            user: gs3
+            from: ./
+            host_path: /home/gs3
+            releases: 4
+            exclude:
+                - ./var/cache/*
+                - ./var/log/*
+                - ./logs
+                - ./test
+                - ./public/uploads
+                - ./public/node_modules
+                - ./public/.tmp
+                - ./public/vendor
+                - ./public/Gulpfile.js
+                - ./public/package*
+                - ./public/webpack.config.js
+                - ./phpunit.xml*
+            hosts:
+                - 217.182.95.73
+            pre-deploy:
+            on-deploy:
+                - fs/link: { from: '/home/gs3/shared/uploads', to: '/home/gs3/releases/%release%/public/uploads' }
+                - fs/link: { from: '/home/gs3/shared/banner', to: '/home/gs3/releases/%release%/public/banner' }
+            on-release:
+            post-release:
+                - exec: { cmd: '/usr/bin/sudo /bin/systemctl restart php7.2-fpm', desc: 'Restart PHP-FPM' }
+                - exec: { cmd: '/usr/bin/php bin/console doctrine:migrations:migrate --no-interaction', desc: 'Run migrations' }
+                - exec: { cmd: '/usr/bin/php bin/console gs:translation:import', desc: 'Reimport translations' }
+            post-deploy:

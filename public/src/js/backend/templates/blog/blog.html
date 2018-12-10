@@ -1,0 +1,35 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-8">
+                <h2 class="inline-block">Blog</h2>
+            </div>
+            <div class="col-xs-4">
+                <button class="btn btn-primary pull-right" ng-click="addBlog()">Neuen Beitrag anlegen</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body pa0">
+        <table class="table table-striped mb0">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Datum</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="news in blogData.data">
+                <td>{{ news.id }}</td>
+                <td>{{ news.title_de }}</td>
+                <td>{{ news.date|germanDate }}</td>
+                <td>
+                    <button ng-click="editBlog(news)" class="btn btn-primary">Bearbeiten</button>
+                    <button ng-click="deleteBlog(news)" class="btn btn-danger">Löschen</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

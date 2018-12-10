@@ -1,0 +1,46 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2 class="mtm">Menü
+            <a href="#!/menu/add" class="btn btn-primary pull-right">Neuen Menupunkt anlegen</a>
+        </h2>
+        <ul class="nav nav-tabs">
+            <li ng-class="mode == 2 ? 'active' : ''">
+                <a ng-click="loadData(2)" data-toggle="tab" aria-expanded="false">Alle</a>
+            </li>
+            <li ng-class="mode == 1 ? 'active' : ''">
+                <a ng-click="loadData(1)" data-toggle="tab" aria-expanded="true">Registriert</a>
+            </li>
+            <li ng-class="mode == 0 ? 'active' : ''">
+                <a ng-click="loadData(0)" data-toggle="tab" aria-expanded="false">Gast</a>
+            </li>
+            <li ng-class="mode == 3 ? 'active' : ''">
+                <a ng-click="loadData(3)" data-toggle="tab" aria-expanded="false">Backend</a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body pa0">
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th class="col-xs-1">ID</th>
+                <th class="col-xs-3">Class</th>
+                <th class="col-xs-3">Name</th>
+                <th class="col-xs-3">Sortierung</th>
+                <th class="col-xs-3"></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="menu in menuItems">
+                    <td>{{ menu.menuID }}</td>
+                    <td>{{ menu.menuClass }}</td>
+                    <td>{{ menu.menuDefaultName }}</td>
+                    <td>{{ menu.menuSort }} </td>
+                    <td>
+                        <a ng-click="editMenu(menu)" class="btn btn-primary">Bearbeiten</a>
+                        <a ng-click="deleteMenu(menu)" class="btn btn-danger">Löschen</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

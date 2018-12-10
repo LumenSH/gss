@@ -1,0 +1,50 @@
+<mjml>
+  <mj-body>
+    <mj-container background-color="#2C3E50">
+      <mj-section full-width="full-width">
+        <mj-column>
+          <mj-image src="https://gameserver-sponsor.me/src/img/logo.png" width="125" align="left">
+          </mj-image>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-text color="#1abc9c" font-family="Helvetica" align="center" font-size="24px">
+            {{ __("Vielen Dank für ihre Registrierung", "RegisterHeader", "Mail") }}
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-text color="#EEE" font-family="Helvetica" font-size="14px" align="center">{{ __("Hey %username%, deine Registration ist fast abgeschlossen", 'WelcomeMessage', 'Mail', {'username': username,}) }}
+              </mj-text>
+            <mj-text color="#EEE" font-family="Helvetica" font-size="14px" align="center">
+              {{ __("Bitte klicke unten auf dem Button um deine Email-Adresse zu verifizieren und deine Registierung bei Gameserver-Sponsor abzuschliessen", "VerifiyMailText", "Mail") }}
+            </mj-text>
+            </mj-column>
+          </mj-section>
+        <mj-section>
+          <mj-column>
+            <mj-button font-family="Helvetica" background-color="#1abc9c" href="{{ baseUrl }}user/activate/{{ activateLink }}" color="white">
+            {{ __("Account aktivieren", "ActiveAccount", "Mail") }}
+          </mj-button>
+          </mj-column>
+        </mj-section>
+        <mj-section>
+          <mj-column>
+            <mj-text color="#EEE" padding-top="40px" font-family="Helvetica" align="center">2017 © Gameserver-Sponsor
+            </mj-text>
+          </mj-column>
+          <mj-column>
+            <mj-social
+                       mode="vertical"
+                       display="facebook twitter"
+                       color="#EEE"
+                       font-family="Helvetica"
+                       facebook-href="https://gameserver-sponsor.me"
+                       twitter-href="https://gameserver-sponsor.me" />
+          </mj-column>
+        </mj-section>
+        </mj-container>
+      </mj-body>
+    </mjml>

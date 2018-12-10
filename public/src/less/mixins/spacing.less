@@ -1,0 +1,46 @@
+.make-spacing(@index, @short, @long) when(@index > -1) {
+  .@{short}t@{index},
+  .@{short}v@{index},
+  .@{short}a@{index} {
+      @{long}-top: @index + 0px;
+  }
+  .@{short}r@{index},
+  .@{short}h@{index},
+  .@{short}a@{index} {
+      @{long}-right: @index + 0px;
+  }
+  .@{short}b@{index},
+  .@{short}v@{index},
+  .@{short}a@{index} {
+      @{long}-bottom: @index + 0px;
+  }
+  .@{short}l@{index},
+  .@{short}h@{index},
+  .@{short}a@{index} {
+      @{long}-left: @index + 0px;
+  }
+  .make-spacing(@index - 5, @short, @long);
+}
+.make-spacing(@index, @short, @long, @view) when(@index > -1) {
+  .@{short}t@{index}@{view},
+  .@{short}v@{index}@{view},
+  .@{short}a@{index}@{view} {
+      @{long}-top: @index + 0px;
+  }
+  .@{short}r@{index}@{view},
+  .@{short}h@{index}@{view},
+  .@{short}a@{index}@{view} {
+      @{long}-right: @index + 0px;
+  }
+  .@{short}b@{index}@{view},
+  .@{short}v@{index}@{view},
+  .@{short}a@{index}@{view} {
+      @{long}-bottom: @index + 0px;
+  }
+  .@{short}l@{index}@{view},
+  .@{short}h@{index}@{view},
+  .@{short}a@{index}@{view} {
+      @{long}-left: @index + 0px;
+  }
+  .make-spacing(@index - 5, @short, @long, @view);
+}

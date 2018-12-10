@@ -1,0 +1,20 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>{{ __("Neues Ticket", "NewTicket", "Support") }}</h4>
+        </div>
+        <div class="panel-body">
+            <div class="alert alert-info">{{ __("Please create support tickets in english or german.", 'LanguageHint', 'Support') }}</div>
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <button class="btn btn-primary pull-right">{{ __('Erstellen', 'Create', 'Support') }}</button>
+            {{ form_rest(form) }}
+            {{ form_row(form._token) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

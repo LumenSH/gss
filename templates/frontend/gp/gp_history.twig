@@ -1,0 +1,26 @@
+<div class="gpHistory clearfix" style="max-height: 400px" id="{{ name }}" data-gphistory="true">
+    <ul class="list-unstyled">
+        {% for inData in history %}
+            <li>
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="label label-sm label-info">
+                            <i class="icon ion-star"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-7">
+                        <p>
+                            {{ inData.name }} <br>
+                            <span class="{% if inData.status == "in" %}txt-green{% else %}txt-red{% endif %}">{{ inData.value }}</span> GP
+                        </p>
+                    </div>
+                    <div class="col-xs-3">
+                        <p>
+                            {{ inData.timestamp|date('d.m.Y') }}
+                        </p>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

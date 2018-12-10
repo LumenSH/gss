@@ -1,0 +1,119 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <h1 class="mt0 mb20">{{ __("Forum", "forumhead", "forum") }}</h1>
+
+    {% if lastPosts is not empty %}
+        <div class="panel panel-primary last--posts">
+            <div class="panel-heading">
+                <span class="board-title">{{ __("Die letzten 5 Beiträge", 'Last5Posts', 'Forum') }}</span>
+            </div>
+            <div class="panel-body pa0">
+                <div class="forum-board-header clearfix">
+                    <div class="col-xs-5">
+                        <strong>{{ __("Aktuelle Themen", "LatestThread", 'Forum') }}</strong>
+                    </div>
+                    <div class="col-sm-1 hidden-xs">
+                        <strong>{{ __("Antworten", "Answer", 'Forum') }}</strong>
+                    </div>
+                    <div class="col-sm-1 hidden-xs">
+                        <strong>{{ __("Zugriffe", "Requests", 'Forum') }}</strong>
+                    </div>
+                    <div class="col-sm-5 col-xs-6">
+                        <strong>{{ __("Letzer Beitrag", "LastPostHead", 'Forum') }}</strong>
+                    </div>
+                </div>
+                {% for lastPost in lastPosts %}
+                    {% set pageCount = lastPost.threadAnswers / 8 %}
+                    {% set pageCount = pageCount|round(0, "ceil") %}
+                    <div class="clearfix forum-board pb10">
+                        <div class="col-sm-5 col-xs-6">
+                            <div>
+                                <a class="topic" href="{{ baseUrl }}{{ lastPost.threadLink }}">{{ lastPost.threadName }}</a>
+                                von {{ lastPost.creatorName }} » {{ lastPost.date|date('d.m.Y') }} in <a href="{{ baseUrl }}{{ lastPost.boardLink }}">{{ lastPost.boardName }}</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 hidden-xs">
+                            {{ lastPost.threadAnswers }}
+                        </div>
+                        <div class="col-sm-1 hidden-xs">
+                            {{ lastPost.threadViews }}
+                        </div>
+                        <div class="col-sm-5 col-xs-6">
+                            <div class="width-100">
+                                {{ avatar(lastPost.posterAvatar, 'post-image img-round') }}
+                                <a href="{{ baseUrl }}{{ lastPost.threadLink }}?page={{ pageCount }}" class="fw-600 post-thread-name">{{ lastPost.threadName }}</a>
+                                <span class="post-thread-name">
+                                    <a href="{{ baseUrl }}user/{{ lastPost.posterName|lower }}" class="fw-600">{{ lastPost.posterName }}</a>
+                                    -
+                                    {{ lastPost.date|timeDiff }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% for board in boards %}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div>
+                    <span class="board-title">{{ board.boardName }}</span>
+                    <a data-toggle="collapse" data-target="#board{{ board.id }}" class="{% if request.cookies['forum_board' ~ board.id] is not empty %}ion-plus-round{% else %}ion-minus-round{% endif %} pull-right forum-board-trigger"></a>
+                </div>
+                {% if board.boardSubName is not empty %}
+                    <div class="board-description mt5">{{ board.boardSubName }}</div>
+                {% endif %}
+            </div>
+            <div class="panel-body collapse {% if request.cookies['forum_board' ~ board.id] is empty %} in{% endif %} pa0" id="board{{ board.id }}">
+                <div class="clearfix forum-board-header">
+                    <div class="col-xs-6">
+                        <strong>{{ __('Forum', 'Forum', 'Forum') }}</strong>
+                    </div>
+                    <div class="col-sm-1 hidden-xs">
+                        <strong>{{ __('Themen', 'topics', 'Forum') }}</strong>
+                    </div>
+                    <div class="col-sm-1 hidden-xs">
+                        <strong>{{ __('Beiträge', 'Beitraege', 'Forum') }}</strong>
+                    </div>
+                    <div class="col-sm-4 col-xs-6">
+                        <strong>{{ __("Letzer Beitrag", "LastPostHead", 'Forum') }}</strong>
+                    </div>
+                </div>
+                {% for subBoard in board.subs %}
+                    <div class="clearfix forum-board pb10">
+                        <div class="col-sm-1 hidden-xs">
+                            <img src="https://cdn.rawgit.com/encharm/Font-Awesome-SVG-PNG/master/black/png/64/comments.png">
+                        </div>
+                        <div class="col-sm-5 col-xs-6">
+                            <a class="fz-18 break-word" href="{{ baseUrl }}{{ subBoard.link }}">{{ subBoard.boardName }}</a>
+                            {% if subBoard.boardSubName is not empty %}
+                                <br>
+                                <small class="fz-14">{{ subBoard.boardSubName|raw }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-1 hidden-xs">{{ subBoard.threadCount }}</div>
+                        <div class="col-sm-1 hidden-xs">{{ subBoard.entries }}</div>
+                        <div class="col-sm-4 col-xs-6">
+                            <div class="width-100">
+                                {% if subBoard.latestUser is not empty %}
+                                    {{ avatar(subBoard.latestUserAvatar, 'post-image img-round') }}
+                                    <a href="{{ baseUrl }}{{ subBoard.latestLink }}" class="fw-600 post-thread-name">{{ subBoard.latestThreadName }}</a><br>
+                                    <div class="post-thread-name">
+                                        <a href="{{ baseUrl }}user/{{ subBoard.latestUser|lower }}" class="fw-600">{{ subBoard.latestUser }}</a>
+                                        -
+                                        {{ subBoard.latestDate|timeDiff }}
+                                    </div>
+                                {% else %}
+                                    Nie
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

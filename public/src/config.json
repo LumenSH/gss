@@ -1,0 +1,59 @@
+{
+  "lessFiles": [
+    "less/*/*.less",
+    "less/*/*/*.less",
+    "less/theme.less"
+  ],
+  "jsFiles": [
+    "vendor/js/jquery/jquery.min.js",
+    "js/jquery/*.js",
+
+    "vendor/js/bootstrap/transition.js",
+    "vendor/js/bootstrap/collapse.js",
+    "vendor/js/bootstrap/dropdown.js",
+    "vendor/js/bootstrap/modal.js",
+    "vendor/js/bootstrap/tooltip.js",
+    "vendor/js/bootstrap/popover.js",
+    "vendor/js/bootstrap/tab.js",
+    "vendor/js/bootstrap/affix.js",
+
+    "vendor/js/toastr/toastr.js",
+
+    "vendor/js/slimScroll/jquery.slimscroll.min.js",
+
+    "vendor/js/clipboard/clipboard.min.js",
+
+    "js/gs3/languages/*.js",
+    "js/ace/ace.js",
+    "js/ace/mode-xml",
+
+    "js/simeditor/module.min.js",
+    "js/simeditor/hotkeys.min.js",
+    "js/simeditor/uploader.min.js",
+    "js/simeditor/simditor.min.js",
+    "js/simeditor/simditor-emoji.js",
+    "js/simeditor/simditor-mention.js",
+
+    ".tmp/js/app.bundle.js"
+  ],
+  "jsFilesBackend": [
+    "js/backend/app.js",
+    "js/backend/other/*.js",
+    "js/backend/service/*.js",
+    "js/backend/controller/*.js"
+  ],
+  "watchJsFiles": [
+    "js/gs3/*.js",
+    "js/frontend/app.js",
+    "js/frontend/modules/*.js",
+    "js/gs3/languages/*.js",
+    "js/jquery/*.js",
+    "js/simditor/*.js"
+  ],
+  "watchLessFiles": [
+    "js/gs3/*.js",
+    "js/gs3/languages/*.js",
+    "js/jquery/*.js",
+    "js/simditor/*.js"
+  ]
+}

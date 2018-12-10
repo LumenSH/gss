@@ -1,0 +1,34 @@
+{% if User.sms is not empty %}
+<div class="alert alert-info">
+	{{ __("Unsere Aktiven Server sind 24/7 Online. Du kannst sie also für deine Projekte benutzen. Aber beachte das du auch genügend aktive Spieler brauchst um ihn bezahlen zu können.", "24/7OnlineInfo", "Shop") }}
+</div>
+{% endif %}
+<div class="list-group">
+	{% if User is not empty and User.sms is empty %}
+		<div class="alert alert-danger">
+			{{ __("You can only order active servers, if you have your account activated with sms", "AccountActivateInfo", "Shop") }}
+		</div>
+		<a href="{{ baseUrl }}user/activateSms" class="btn btn-primary">{{ __('Go to account activation with sms', 'InteractionActivateAccount', 'Shop') }}</a>
+	{% else %}
+		{% for activeServer in activeServers %}
+			<div class="list-group-item">
+				<div class="row-action-primary mr10">
+					{% if activeServer.img is not empty %}
+						<img src="{{ baseUrl }}uploads/games/{{ activeServer.img }}" width="80">
+					{% endif %}
+				</div>
+				<div class="row-content">
+					<div class="action-secondary"><i class="mdi-material-info"></i></div>
+					<h4 class="list-group-item-heading">{{ activeServer.name }}</h4>
+					<p class="list-group-item-text">
+						{{ activeServer['description_' ~ request.language] }}
+					<p>
+						<a href="{{ baseUrl }}shop/showVariants/0/{{ activeServer.internalName }}" class="btn btn-primary btn-xs">{{ __('Starting with %gp% GP points', 'StartingPrices', 'Shop', {'gp':activeServer.minimumGP|number_format(0, '.', '.') }) }}</a></p>
+				</div>
+			</div>
+			{% if not loop.last %}
+				<div class="list-group-separator"></div>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+</div>

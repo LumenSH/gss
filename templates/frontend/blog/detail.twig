@@ -1,0 +1,127 @@
+{% extends "frontend/layout.twig" %}
+
+{% block breadcrumb %}{% endblock %}
+{% block pageContainerWrapper %}
+    <div class="blogdetail--cover-img" style="background-image: url({{ baseUrl }}uploads/blog/{{ blogItem.image }});{{ blogItem.cssDetail }}"></div>
+    <div class="container" id="main-content">
+        <div class="row pos-relative mb20">
+            <div class="col-md-1 hidden-xs visible-lg">
+                <div class="entry-date">
+                    <time class="published">
+                        <span class="posted-month">{{ blogItem.month }}</span>
+                        <span class="posted-date">{{ blogItem.date|date('d') }}</span>
+                        <span class="posted-year">{{ blogItem.date|date('Y') }}</span>
+                    </time>
+                </div>
+            </div>
+            <div class="blog-content col-md-7">
+                <nav class="breadcrumb-detail">
+                    <ul class="list-unstyled list-inline fz-14 mv10">
+                        <li itemscope itemtype="https://data-vocabulary.org/Breadcrumb">
+                            <a href="{{ baseUrl }}" itemprop="url">
+                                <span itemprop="title">Gameserver-Sponsor</span>
+                            </a>
+                        </li>
+                        {% if breadcrumb is not empty %}
+                            {% for breadcrumbItem in breadcrumb %}
+                                <li itemscope itemtype="https://data-vocabulary.org/Breadcrumb">
+                                    <a href="{% if breadcrumbItem.link is empty %}#{% else %}{{ breadcrumbItem.link }}{% endif %}" itemprop="url">
+                                        <span itemprop="title">{{ breadcrumbItem.name }}</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </nav>
+                <article itemscope itemtype="https://schema.org/Article">
+                    <header>
+                        <meta itemprop="datePublished" content="{{ blogItem.date|date("Y-m-d") }}"/>
+                        <meta itemprop="dateModified" content="{{ blogItem.date|date("Y-m-d") }}"/>
+                        <meta itemprop="commentCount" content="{{ blogItem.comments|length }}"/>
+                        <meta itemprop="keywords" content="{{ blogItem.tags }}"/>
+                        <meta itemprop="author" content="{{ blogItem.author }}"/>
+                        <meta itemprop="url" content="{{ request.url }}">
+                        <meta itemprop="mainEntityOfPage" content="{{ request.url }}">
+                        <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                            <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                                <meta itemprop="url" content="{{ baseUrl }}src/img/logo.png">
+                                <meta itemprop="width" content="360">
+                                <meta itemprop="height" content="66">
+                            </div>
+                            <meta itemprop="name" content="{{ blogItem.author }}">
+                        </div>
+                        <span itemprop="image" itemscope itemtype="https://schema.org/ImageObject" style="display: none">
+                            <meta itemprop="url" content="{{ path('index') }}uploads/blog/{{ blogItem.image }}">
+                            <meta itemprop="width" content="400">
+                            <meta itemprop="height" content="400">
+                        </span>
+
+                        <div class="entry-date-mobile visible-xs">
+                            <i class="ion-android-calendar fz-20 mr5"></i>
+                            <span>{{ date|date('d') }}.{{ blogItem.month }} {{ date|date("Y") }}</span>
+                        </div>
+                        <h1 itemprop="headline" class="entry-title mt0 mb20">
+                            {{ blogItem.title }}
+                        </h1>
+                        <div class="row mb20">
+                            <div class="col-sm-4 col-lg-6 entry-author">
+                                <a href="{{ baseUrl }}user/{{ blogItem.author|lower }}">
+                                    {{ avatar(blogItem.Avatar) }}
+                                    <span class="txt-gray ml5">{{ blogItem.author }}</span>
+                                </a>
+                            </div>
+                            <div class="col-sm-8 col-lg-6 entry-like-comment">
+                                <div class="pull-right">
+                                    <a class="mr10">
+                                        <span class="icon fz-28 txt-red mr5{% if blogItem.liked == 0 %} ion-ios-heart-outline{% else %} ion-ios-heart{% endif %}" data-like="true" data-id="{{ blogItem.id }}" data-section="blog" data-liked="{{ blogItem.liked }}"></span>
+                                        <span class="txt-gray">{{ __("Artikel gefällt mir", "Like", "Blog") }}</span>
+                                    </a>
+                                    <a href="#comments" data-focus-comment="true">
+                                        <span class="icon ion-ios-chatbubble-outline fz-28 mr5"></span>
+                                        <span class="txt-gray">{{ __("kommentieren", "Comment", "Blog") }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <main class="entry-content fz-18 fw-300">
+                        {{ blogItem.content|raw }}
+                    </main>
+                    <footer>
+                        <hr class="txt-gray">
+
+                        <div class="row">
+                            <div class="col-sm-4 col-lg-6 entry-social">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" target="_blank" class="mr20">
+                                    <span class="icon ion-social-facebook fz-28 txt-fb"></span>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?text={{ blogItem.title }}%20auf%20{{ request.url }}" target="_blank" class="mr20">
+                                    <span class="icon ion-social-twitter fz-28 txt-twitter"></span>
+                                </a>
+                                <a href="https://plus.google.com/share?url={{ request.url }}" target="_blank">
+                                    <span class="icon ion-social-googleplus fz-28 txt-gplus"></span>
+                                </a>
+                            </div>
+                            <div class="col-sm-8 col-lg-6 entry-like-comment">
+                                <div class="pull-right">
+                                    <a class="mr10">
+                                        <span class="icon fz-28 txt-red mr5{% if blogItem.liked == 0 %} ion-ios-heart-outline{% else %} ion-ios-heart{% endif %}" data-like="true" data-id="{{ blogItem.id }}" data-section="blog" data-liked="{{ blogItem.liked }}"></span>
+                                        <span class="txt-gray">{{ __("Artikel gefällt mir", "Like", "Blog") }}</span>
+                                    </a>
+                                    <a href="#comments" data-focus-comment="true">
+                                        <span class="icon ion-ios-chatbubble-outline fz-28 mr5"></span>
+                                        <span class="txt-gray">{{ __("kommentieren", "Comment", "Blog") }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </article>
+                {% include "frontend/blog/comments.twig" %}
+            </div>
+            <div class="col-md-4 entry-sidebar">
+                {% include "frontend/blog/sidebar.twig" %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

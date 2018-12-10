@@ -1,0 +1,21 @@
+{% extends "frontend/layout.twig" %}
+{% block pageContent %}
+    <div class="modal fade modal-login" id="modalOAuth" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content pa20">
+                <img class="center-block mb20" width="153" src="{{ baseUrl }}src/img/logo.png" />
+                <span class="block text-center fz-20 fw-300 mv10 txt-white">{{ __('Die Registrierung ist fast abgeschlossen', 'RegisterCompletedHalf', 'User') }}</span>
+                <form onclick="return false;">
+                    <div class="ph20">
+                        <div class="input-group mb10">
+                            <span class="input-group-addon"><i class="ion-person"></i></span>
+                            <input name="username" type="text" class="form-control" placeholder="Username">
+                        </div>
+
+                        <button class="btn btn-success btn-block text-uppercase" onclick="return false;">{{ __('Registrierung abschliessen', 'EndRegister', 'User') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+<h3 class="mt0">{{ __("Dein Banner", "YourBanner", "Server") }}</h3>
+<img src="{{ baseUrl }}banner/{{ gs.IP|replace({".": "_"}) ~ "_" ~ gs.port }}.png">
+
+<h3>Verlinkungen</h3>
+<div class="input-group">
+    <span class="input-group-addon">{{ __("BB Code", "BBCode", "Server") }}</span>
+    <input type="text" class="form-control" readonly="readonly" value="[url='{{ baseUrl }}index/gameserver/{{ gs.id }}'][img]{{ baseUrl }}banner/{{ gs.IP|replace({".": "_"}) ~ "_" ~ gs.port }}.png[/img][/url]" id="code1">
+	<span class="input-group-btn">
+		<button class="btn btn-default btn-copy" type="button" data-clipboard-target="#code1">
+            <i class="ion-ios-copy-outline txt-black"></i> {{ __("Kopieren", 'Copy', 'Server') }}
+        </button>
+	</span>
+</div>
+<div class="input-group">
+    <span class="input-group-addon">{{ __("HTML Code", "HTMLCode", "Server") }}</span>
+    <input type="text" class="form-control" readonly="readonly" value='<a href="{{ baseUrl }}index/gameserver/{{ gs.id }}"><img src="{{ baseUrl }}banner/{{ gs.IP|replace({".": "_"}) ~ "_" ~ gs.port }}.png"></a>' id="code2">
+	<span class="input-group-btn">
+		<button class="btn btn-default btn-copy" type="button" data-clipboard-target="#code2">
+            <i class="ion-ios-copy-outline txt-black"></i> {{ __("Kopieren", 'Copy', 'Server') }}
+        </button>
+	</span>
+</div>

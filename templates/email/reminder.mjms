@@ -1,0 +1,41 @@
+<mjml>
+  <mj-body>
+    <mj-container background-color="#2C3E50">
+      <mj-section full-width="full-width">
+        <mj-column>
+          <mj-image src="https://gameserver-sponsor.me/src/img/logo.png" width="125" align="left">
+          </mj-image>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-text color="#1abc9c" font-family="Helvetica" align="center" font-size="24px">
+            {{ __("Erinnerung", "Erinnerung", "User") }}
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-text color="#EEE" font-family="Helvetica" font-size="14px" align="center">
+            {{ __("Hey, %username%, dein Gameserver auf dem Port %port% läuft in 7 Tagen aus.<br>Bitte verlängere ihn oder lass ihn auslaufen.<br><br><span style='color: red'>Nach dem Ablauf des Servers werden alle Daten gelöscht</span>", 'Expire7Days', 'Mail', {'username': User.Username, 'port': User.Port}) }}
+              </mj-text>
+            </mj-column>
+          </mj-section>
+        <mj-section>
+          <mj-column>
+            <mj-text color="#EEE" padding-top="40px" font-family="Helvetica" align="center">2017 © Gameserver-Sponsor
+            </mj-text>
+          </mj-column>
+          <mj-column>
+            <mj-social
+                       mode="vertical"
+                       display="facebook twitter"
+                       color="#EEE"
+                       font-family="Helvetica"
+                       facebook-href="https://gameserver-sponsor.me"
+                       twitter-href="https://gameserver-sponsor.me" />
+          </mj-column>
+        </mj-section>
+        </mj-container>
+      </mj-body>
+    </mjml>

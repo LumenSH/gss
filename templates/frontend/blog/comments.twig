@@ -1,0 +1,81 @@
+{% if User is not empty or User is empty and blogItem.comments is not empty %}
+    <div class="row entry-comments clearfix mt15">
+        <div class="pa15">
+            {% if User is not empty %}
+                <form class="mb20 new-comment-wrapper" method="post">
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-1">
+                            {{ avatar(User.Avatar) }}
+                        </div>
+                        <div class="col-xs-8 col-sm-10">
+                            <input required name="comment" type="text" class="comment-input" placeholder="{% if newsItem.comments is empty %}{{ __("Sei der erste und schreibe ein Kommentar", "DoFirstAndWriteComment", "Blog") }}{% else %}{{ __('Schreibe einen Kommentar', "WriteComment", "Blog") }}{% endif %}">
+                        </div>
+                        <div class="col-xs-2 col-sm-1">
+                            <button class="comment-submit">
+                                <span class="icon ion-checkmark-circled fz-28 txt-white"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+
+            <div itemscope itemtype="https://schema.org/UserComments">
+                {% for comment in blogItem.comments %}
+                    <div class="row mb20 comment-wrapper">
+                        <div class="ph15">
+                            <div class="avatar inline-block pull-left mr15">
+                                {{ avatar(comment.Avatar, "w48 inline-block") }}
+                            </div>
+                            <div class="pull-left comment-field">
+                                <meta itemprop="commentTime" content="{{ comment.date|date("Y-m-d") }}">
+                                    <span itemscope itemtype="https://schema.org/Person">
+                                        <span itemprop="givenName" class="username fw-700 mr5">{{ comment.Username|ucfirst }}</span>
+                                    </span>
+                                <span class="txt-gray">{{ comment.date|timeDiff }}</span>
+                                <br>
+                                <p class="comment" itemprop="commentText">
+                                    {{ comment.comment|highlightUser }}
+                                </p>
+                                <a href="#comment_field_wrapper_{{ comment.id }}" class="toggle-comment txt-gray" data-comment-anwer="true" data-id="{{ comment.id }}" data-poster="{{ comment.Username }}">antworten</a>
+                                {% if User.id == comment.user_id or hasPermission('admin_blog_deletecomment') %}
+                                    <a href="{{ baseUrl }}blog/deleteComment/{{ comment.id }}" class="txt-red ml5">{{ __('löschen', "DeleteComment", "Blog") }}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% for subComment in comment.subs %}
+                        <div class="row col-sm-offset-1">
+                            <div class="row mb20 comment-wrapper">
+                                <div class="ph15">
+                                    <div class="avatar inline-block pull-left mr15">
+                                        {{ avatar(subComment.Avatar, "w32 inline-block") }}
+                                    </div>
+                                    <div class="pull-left comment-field">
+                                        <span class="username fw-700 mr5">{{ subComment.Username|ucfirst }}</span>
+                                        <span class="txt-gray">{{ subComment.date|timeDiff }}</span>
+                                        <br>
+                                        <p class="comment">
+                                            {{ subComment.comment|highlightUser }}
+                                        </p>
+                                        <a href="#comment_field_wrapper_{{ comment.id }}" class="toggle-comment txt-gray" data-comment-anwer="true" data-id="{{ comment.id }}" data-poster="{{ subComment.Username }}">antworten</a>
+                                        {% if User.id == subComment.user_id or hasPermission('admin_blog_deletecomment') %}
+                                            <a href="{{ baseUrl }}blog/deleteComment/{{ subComment.id }}" class="txt-red ml5">{{ __('löschen', "DeleteComment", "Blog") }}</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% if User is not empty %}
+                        <div id="comment_field_wrapper_{{ comment.id }}">
+                            <form method="post" class="col-sm-offset-1 mb20" style="display: none" id="comment_field_{{ comment.id }}">
+                                <input type="hidden" name="parent" value="{{ comment.id }}">
+                                <input name="comment" type="text" class="comment-input" placeholder="{{ __('Antworten...', "AnswerPlaceholder", "Blog") }}">
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}

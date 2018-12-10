@@ -1,0 +1,17 @@
+{% macro buildMenu(menuData) %}
+    {% import _self as self %}
+
+    {% for menu in menuData %}
+        <li {% if menu.menuAttrLi is not empty %} {{ menu.menuAttrLi|raw }} {% endif %} class="{% if menu.active and menu.sub is empty %}active{% elseif menu.active and menu.sub is not empty %}active open{% endif %}{% if menu.sub is not empty %} has-submenu{% endif %}">
+            <a itemprop="url"{% if menu.menuAttrA is not empty %} {{ menu.menuAttrA|raw }} {% endif %} {% if menu.active %} class="active"{% endif %} href="{% if is_external(menu.menuLink) %}{{ menu.menuLink }}{% else %}{% if menu.sub is empty %}{% if request.module == "Frontend" %}{{ baseUrl }}{% else %}#!/{% endif %}{{ menu.menuLink }}{% else %}#{% endif %}{% endif %}"{% if is_external(menu.menuLink) %} target="_blank"{% endif %}>
+                {% if menu.menuClass is not empty %}<span class="{{ menu.menuClass }}"></span>{% endif %}<span itemprop="name">{{ menu.menuDefaultName }}</span>
+                {% if menu.sub is not empty %}<span class="ion-chevron-left mr15 pull-right"></span>{% endif %}
+            </a>
+            {% if menu.sub is not empty %}
+                <ul class="list-unstyled sub-menu" style="display: {% if menu.active %}block{% else %}none{% endif %};">
+                    {{ self.buildMenu(menu.sub) }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endmacro %}

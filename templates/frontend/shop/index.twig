@@ -1,0 +1,36 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="mt10">{{ __("Shop", "ShopHead", "Shop") }}</h3>
+        <ul class="nav nav-tabs">
+            <li{% if mode == 'active' %} class="active"{% endif %}>
+                <a href="{{ baseUrl }}shop/index/active">{{ __("Aktive Gameserver", "ActiveGameserver", "Shop") }}</a>
+            </li>
+            <li{% if mode == 'passive' %} class="active"{% endif %}>
+                <a href="{{ baseUrl }}shop/index/passive">{{ __("Passive Gameserver", "PassiveGameserver", "Shop") }}</a>
+            </li>
+            {% if User is not empty %}
+                <li{% if mode == 'upgrades' %} class="active"{% endif %}>
+                    <a href="{{ baseUrl }}shop/index/upgrades">{{ __("Account Upgrades", "AccountUpgrade", "Shop") }}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="panel-body">
+        {% if User is not empty %}
+            <div class="col-md-8 col-xs-12">
+                <div class="tab-content">
+                    {% include "frontend/shop/_includes/index/" ~ mode ~ ".twig" %}
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                {% include("frontend/shop/_includes/feautres.twig") %}
+            </div>
+        {% else %}
+            {% include "frontend/shop/_includes/index/" ~ mode ~ ".twig" %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

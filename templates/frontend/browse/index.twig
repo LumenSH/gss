@@ -1,0 +1,33 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <h1 class="mt0 mb20">Server Browser (only active servers)</h1>
+    <h4>last update: {{ lastUpdate }}</h4>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Server Name</th>
+                    <th>Slots</th>
+                    <th>Address</th>
+                    <th>Game</th>
+                    <th>Gamemode</th>
+                    <th>Gametype</th>
+                    <th>Gamemap</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for server in servers %}
+                    <tr>
+                        <td>{{ server.name }}</td>
+                        <td>{{ server.cur_players }}/{{ server.slot }}</td>
+                        <td>{{ server.connect }}</td>
+                        <td>{{ server.productName }}</td>
+                        <td>{{ server.gamemode }}</td>
+                        <td>{{ server.gametype }}</td>
+                        <td>{{ server.gamemap }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

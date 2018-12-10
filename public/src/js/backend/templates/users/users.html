@@ -1,0 +1,44 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-8">
+                <h2 class="inline-block">Kundenliste</h2>
+            </div>
+            <div class="col-xs-4">
+                <input type="text" ng-model="searchValue" ng-enter="search()" class="form-control pull-right mt10" placeholder="Nach Email oder Username suchen...">
+            </div>
+        </div>
+    </div>
+    <div class="panel-body pa0">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>GP</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in users.data">
+                <td>{{ user.id }}</td>
+                <td>{{ user.Email }}</td>
+                <td>{{ user.Username }}</td>
+                <td>{{ user.GP }}</td>
+                <td class="pull-right">
+                    <button ng-click="editUser(user)" class="btn btn-primary">Bearbeiten</button>
+                    <a href="/backend/user/changeUser/{{ user.id }}" class="btn btn-default">Als User einloggen</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination center-items">
+                <li ng-repeat="pagi in users.pageination">
+                    <a ng-click="loadPage(pagi)" ng-class="{true:'fw-800', false:''}[pagi==page]">{{ pagi }}</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

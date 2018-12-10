@@ -1,0 +1,109 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="mt10">{{ pageTitle }}</h2>
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#overview" data-toggle="tab">{{ __('Allgemein', 'General', 'User') }}</a>
+                </li>
+                <li>
+                    <a href="#security" data-toggle="tab">{{ __('Sicherheit', 'Security', 'User') }}</a>
+                </li>
+                <li>
+                    <a href="#profil" data-toggle="tab">{{ __('Profil', 'Profil', 'User') }}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            {% for message in ErrorMessages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+            <form method="post">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="overview">
+                        <div class="alert alert-info">
+                            {{ __('Deinen Usernamen oder Email-Adresse können nur durch den Support geändert werden', 'UsernameOnlyChangeableFromSupport', 'User') }}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Username', 'Username', 'User') }}:</label>
+                            <input type="text" class="form-control" readonly value="{{ User.Username }}">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('E-Mail', 'Email', 'User') }}:</label>
+                            <input type="text" class="form-control" readonly value="{{ User.Email }}">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __("Timezone (used for Servers)", "Timezone", "User") }}</label>
+                            <select name="timezone" class="form-control">
+                                {% for timezone in timezones %}
+                                    <option {% if User.timezone == timezone %} selected{% endif %} value="{{ timezone }}">{{ timezone }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Push-Notifications (Only in Chrome, Firefox)</label>
+                            <div class="row press ml10">
+                                <input type="checkbox" id="notifications" name="notifications" class="cbx hidden" disabled>
+                                <label for="notifications" class="lbl"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="security">
+                        <div class="form-group">
+                            <label>{{ __('Altes Passwort', 'OldPassword', 'User') }}:</label>
+                            <input name="oldPassword" type="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Neues Passwort', 'NewPassword', 'User') }}:</label>
+                            <input name="newPassword1" type="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Neues Passwort wiederholen', 'NewPassword2', 'User') }}:</label>
+                            <input name="newPassword2" type="password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profil">
+                        <div class="form-group clearfix">
+                            <label>{{ __('Avatar', 'Avatar', 'User') }}:</label>
+                            <input type="file" id="avatarUpload">
+                            {% if User.Avatar is not empty %}
+                                {{ avatar(User.Avatar, "pull-right") }}
+                                <br/><a class="btn btn-danger" href="{{ baseUrl }}user/deleteAvatar">{{ __('Avatar löschen', 'AvatarDelete', 'User') }}</a>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Discord', 'Discord', 'User') }}:</label>
+                            <input type="text" name="Skype" class="form-control" value="{{ User.Skype }}">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Profilbeschreibung', 'ProfilDescription', 'User') }}:</label>
+                            <textarea name="Description" class="form-control" data-ckeditor="true">{{ User.Description }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Signatur', 'Signatur', 'User') }}:</label>
+                            <textarea name="Signatur" class="form-control" data-ckeditor="true">{{ User.Signatur }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary pull-right" value="{{ __('Speichern', 'Save', 'User') }}">
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="avatarUploadModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ __('Avatar zuschneiden', 'AvatarCut', 'User') }}</h4>
+                </div>
+                <div class="modal-body" data-drop-image="true">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Schliessen', 'Close', 'User') }}</button>
+                    <button type="button" data-save-avatar="true" class="btn btn-primary">{{ __('Speichern', 'Save', 'User') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

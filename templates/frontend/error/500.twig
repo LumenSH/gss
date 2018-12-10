@@ -1,0 +1,27 @@
+{% extends 'frontend/layout.twig' %}
+
+{% block pageContent %}
+    <div class="col-md-12 page-404">
+        <h3>{{ __("Es ist ein Interner Fehler aufgetreten.", "InternalError", "500") }}</h3>
+
+        {% if Error is defined %}
+            <p>{{ Error.Message }}</p>
+            <pre>
+                {{ Error.Trace }}
+            </pre>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block footerJs %}
+    {{ parent() }}
+    {% if sentryId %}
+        <script src="https://cdn.ravenjs.com/2.1.0/raven.min.js"></script>
+        <script>
+            Raven.showReportDialog({
+                eventId: '{{ sentryId }}',
+                dsn: 'https://51d9562c26614323965192aab60b146d@sentry.shyim.de/9'
+            });
+        </script>
+    {% endif %}
+{% endblock %}

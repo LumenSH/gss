@@ -1,0 +1,226 @@
+{% import "frontend/macro.twig" as macro %}
+
+<body class="ctl_{{ request.controller|lower }} act_{{ request.action|lower }}{% if bodyClass is not empty %} {{ bodyClass }}{% endif %}{% if User is defined %} is--loggedin{% endif %}">
+    <header class="header-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="menu-toggler-wrapper pull-left mr15 clickable ">
+                        <a class="fz-16 text-uppercase" data-menu="true">
+                            <i class="icon ion-navicon-round fz-24"></i>
+                        </a>
+                    </div>
+                    <a class="inline-block pull-left mt5 mr25" href="{{ baseUrl }}">
+                        <img src="{{ preload(asset('src/img/logo.png'), { as: 'image' }) }}" width="125" />
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                    <div class="button-wrapper pull-right">
+                        <ul class="list-unstyled list-inline ma0">
+                            {% if User is empty %}
+                                <li class="hidden-xs hidden-sm">
+                                    <a class="txt-white" href="#" data-toggle="modal" data-target="#modalLogin">
+                                        <i class="icon ion-log-in fz-18"></i>
+                                    </a>
+                                </li>
+                                <li class="hidden-xs hidden-sm">
+                                    <a class="txt-white" href="{{ baseUrl }}register" title="Register">
+                                        <i class="icon ion-person-add fz-18"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="dropdown visible-lg visible-md avatar-li">
+                                    <a href="{{ baseUrl }}{{ User.UserSlug }}" title="{{ User.Username|ucfirst }}" class="txt-white">
+                                        {{ User.Username|ucfirst }}
+                                    </a>
+                                    <a href="{{ baseUrl }}{{ User.UserSlug }}">
+                                        {{ avatar(User.Avatar, "avatar-image") }}
+                                    </a>
+                                </li>
+                                <li class="visible-lg visible-md gp-li">
+                                    <a class="gp-link" href="{{ baseUrl }}gp">{{ User.GP|number_format(0, ",", ".") }} GP</a>
+                                </li>
+                                <li class="visible-lg visible-md">
+                                    <a class="icon ion-android-notifications fz-18 dropdown-toggle" href="#" data-toggle="dropdown">
+                                        {% if User.Notifications[0].unreadCount > 0 %}
+                                            <span class="badge badge-danger">{% if User.Notifications|length > 0 %}{{ User.Notifications[0].unreadCount }}{% else %}0{% endif %}</span>
+                                        {% endif %}
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-custom" id="dropdown-notifications">
+                                        <li class="headline txt-white">{{ __("Du hast zurzeit %noti% Benachrichtigungen", 'NotificationsCount', 'Navigation', {'noti': User.Notifications|length}) }} <a href="{{ baseUrl }}index/markAllAsRead" title="{{ __("Alle als gelesen markieren", "MarkAsRead", 'Navigation') }}"><i class="ion-checkmark"></i></a></li>
+                                        <li>
+                                            <div class="notifications-scroller clearfix">
+                                                <ul class="list-unstyled">
+                                                    {% for item in User.Notifications %}
+                                                    <li class="clearfix mb20 txt-white">
+                                                        <div class="row">
+                                                            <div class="col-xs-3 ml10">{{ avatar(item.Avatar, 'img-responsive', true) }}</div>
+                                                            <div class="col-xs-8 pl0">
+                                                                {{ item.message|raw }}
+                                                                <br>
+                                                                {{ item.date|timeDiff }}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li class="dropdown">
+                                <img src="{{ baseUrl }}src/img/flags/{{ request.language }}.png" class="flag-img">
+                                <select name="language" class="form-control flag-select">
+                                    {% for language in languages %}
+                                        <option value="{{ language }}"{% if request.language == language %} selected{% endif %}>{{ __("Deutsch", 'Language_' ~ language, 'Navigation') }}</option>
+                                    {% endfor %}
+                                </select>
+                            </li>
+                            {% if User is not empty %}
+                            <li class="dropdown visible-lg visible-md">
+                                <a class="dropdown-toggle icon ion-gear-a fz-18" href="#" data-toggle="dropdown"></a>
+                                <ul class="dropdown-menu dropdown-custom dropdown-settings">
+                                    <li>
+                                        <a href="{{ baseUrl }}{{ User.UserSlug }}">
+                                            <span class="ion-person mr5"></span>
+                                            {{ __("Mein Profil", "MyProfile", "Navigation") }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ baseUrl }}user">
+                                            <span class="icon ion-gear-a mr5"></span>
+                                            {{ __("Account Einstellungen", "AccountSettings", "Navigation") }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ baseUrl }}user/logout">
+                                            <span class="icon ion-log-out mr5"></span>
+                                            {{ __("Ausloggen", "Logout", "Navigation") }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav id="menu-left" class="desktop-menu frontend">
+        <div class="scroller">
+            <div class="pa15">
+                {% if User is not empty %}
+                    <div class="user-section clearfix mb15">
+                        <a class="pull-left mr15" href="{{ baseUrl }}{{ User.UserSlug }}" title="{{ User.Username|ucfirst }}">
+                            {{ avatar(User.Avatar, "img-responsive avatar") }}
+                        </a>
+                        <a href="#" class="pull-left">
+                            <a class="txt-white fw-800" href="{{ baseUrl }}{{ User.UserSlug }}" title="{{ User.Username|ucfirst }}">{{ User.Username|ucfirst }}</a>
+                            <span class="txt-gray block">{{ User.GP|number_format(0, ',', '.') }} GP</span>
+                        </a>
+                        <a class="menu-close ion-close-round clickable" data-menu="true"></a>
+                    </div>
+                    <div class="level-section fz-12 lh-12">
+                        <div class="level-info clearfix">
+                            <div class="pull-left">{{ User.Rank.name }}</div>
+                            <div class="pull-right">{{ User.Rank.nextRankName }}</div>
+                        </div>
+                        <div class="level-bar mv10">
+                            <div style="width: {{ User.Rank.neededPointsPercent }}%;" role="progressbar" class="progress-bar"></div>
+                        </div>
+                        <div class="level-exp clearfix">
+                            <div class="pull-left">EXP</div>
+                            <div class="pull-right">{{ User.Rank.currentPoints }} / {{ User.Rank.nextRankPoints }}</div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="wrapper">
+                        <img width="135" src="{{ baseUrl }}src/img/logo.png">
+                        <a class="pull-right" href="#" data-menu="true">
+                            <i class="ion-close txt-white fz-18"></i>
+                        </a>
+                    </div>
+                    <div class="mt10">
+                        <div class="inline-block">
+                            <a class="btn bg-primary-light txt-dark-font" href="{{ baseUrl }}register">
+                                <i class="icon ion-person-add"></i>
+                                {{ __("Registrieren", 'Register', 'User') }}
+                            </a>
+                        </div>
+                        <div class="inline-block">
+                            <button class="btn bg-primary-light txt-white txt-dark-font" data-toggle="modal" data-target="#modalLogin">
+                                <i class="icon ion-log-in"></i>
+                                {{ __("Login", 'Login', 'User') }}
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            {% if User is not empty %}
+                <div class="icon-list clearfix">
+                    <a class="icon-single center-items active" href="#menu">
+                        <i class="icon ion-navicon-round"></i>
+                    </a>
+                    <a class="icon-single center-items" href="#notifications">
+                        <i class="icon {% if User.Notifications[0] is not empty and User.Notifications[0].unreadCount > 0 %}ion-android-notifications{% else %}ion-android-notifications-none{% endif %}"></i>
+                        <span class="badge badge-danger">{% if User.Notifications|length > 0 %}{{ User.Notifications[0].unreadCount }}{% else %}0{% endif %}</span>
+                    </a>
+                    <a class="icon-single center-items" href="{{ baseUrl }}user/logout" title="{{ __("Ausloggen", "Logout", "Navigation") }}">
+                        <i class="icon ion-log-out"></i>
+                    </a>
+                </div>
+            {% endif %}
+            <ul class="nav-list list-unstyled menu-tab" id="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+                {{ macro.buildMenu(menuItems) }}
+            </ul>
+            <div class="notifications menu-tab mt10" id="notifications" style="display: none">
+                <div id="notifications-content">
+                    {% if User.Notifications is not empty %}
+                        <div class="center-items mt10 mb20">
+                            <a class="btn btn-primary" href="{{ baseUrl }}index/markAllAsRead">{{ __("Alle als gelesen makieren", "MarkAllAsRead", "Navigation") }}</a>
+                        </div>
+                    {% endif %}
+                    {% for item in User.Notifications %}
+                        <div class="clearfix mb20 txt-white">
+                            <div class="row">
+                                <div class="col-xs-3 ml10">{{ avatar(item.Avatar, 'img-responsive', true) }}</div>
+                                <div class="col-xs-8 pl0">
+                                    {{ item.message|raw }}
+                                    <br>
+                                    {{ item.date|timeDiff }}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="center-items mh10">
+                            <span class="txt-white">{{ __('Es konnten keine Benachrichtigungen gefunden werden', 'NoNotifications', 'Navigation') }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% if request.controller|lower != "blog" or request.action|lower != "detail" %}
+        <nav class="breadcrumb">
+            <div class="container">
+                <ul class="list-unstyled list-inline fz-14 mv10">
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                        <a href="{{ baseUrl }}" itemprop="url">
+                            <span itemprop="title">Gameserver-Sponsor</span>
+                        </a>
+                    </li>
+                    {% if breadcrumb is not empty %}
+                        {% for breadcrumbItem in breadcrumb %}
+                            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                                <a href="{% if breadcrumbItem.link is empty %}#{% else %}{{ breadcrumbItem.link }}{% endif %}" itemprop="url">
+                                    <span itemprop="title">{{ breadcrumbItem.name }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    {% endif %}

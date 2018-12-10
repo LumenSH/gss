@@ -1,0 +1,44 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="mt10">{{ __("Shop", "HeadShop", "Shop") }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-3">
+                {% if variant.img is not empty %}
+                    <img class="img-responsive" src="{{ baseUrl }}uploads/games/{{ variant.img }}">
+                {% endif %}
+            </div>
+            <div class="col-sm-9 mt20-xs">
+                <h4 class="list-group-item-heading">{{ variant.name }} {% if variant.type == 0 %}{{ variant.slots }}{% else %}{{ User.MaxSlots }}{% endif %} Slots</h4>
+                <p class="list-group-item-text">
+                <ul>
+                    <li>{% if variant.type == 0 %}{{ variant.slots }}{% else %}{{ User.MaxSlots }}{% endif %} {{ __("Slot", "Slot", "Shop") }}</li>
+                    <li>{{ User.MaxMySQL }} {{ __("Datenbank Accounts", "DatabaseAccounts", "Shop") }}</li>
+                    <li>{{ User.MaxFTP }} {{ __("FTP Accounts", "FTPAccounts", "Shop") }}</li>
+                    <li>{% if variant.type == 0 %}{{ __("24/7 Online", "24/7Online", "Shop") }}{% else %}{{ __("Schaltet sich ab sobald keiner mehr Online ist", "PassiveOnline", "Shop") }}{% endif %}</li>
+                    <li>{{ User.MaxGast }} {{ __("Gastzugänge", "GuestAccounts", "Shop") }}</li>
+                    <li>Control Panel</li>
+                </ul>
+                <div class="mv30 clearfix">
+                    {% if variant.type == 0 %}
+                        <p>
+                        <h5>{{ __("Kosten:", "Costs", "Shop") }} <b>{{ variant.gp|number_format(0,'.','.') }}GP</b> {{ __("im Monat", "perMonth", "Shop") }}</h5>
+                        <p>
+                    {% else %}
+                        <div class="alert alert-info">{{ __("Dieser Server ist kostenlos und läuft nicht ab, jedoch wird dieser automatisch gestoppt, falls keine Spieler online sind", "PassiveServerInfo", "Shop") }}</div>
+                    {% endif %}
+                </div>
+                {% if User is not empty %}
+                    <form method="post">
+                        <button class="btn btn-primary btn-xs pull-right" name="buy" value="1">{% if variant.type == 0 %}{{ __("Jetzt kaufen", "Buynow", "Shop") }}{% else %}{{ __("Jetzt erstellen", "Createnow", "Shop") }}{% endif %}</button>
+                    </form>
+                {% else %}
+                    <div class="alert alert-danger">{{ __("Bitte logge dich ein um fortzufahren", "LoginToContinue", "Shop") }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

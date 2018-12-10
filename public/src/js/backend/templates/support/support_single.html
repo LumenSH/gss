@@ -1,0 +1,26 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div>
+            <h4 class="inline-block">{{ ticket.ticket.name }}</h4>
+            <h4 class="inline-block pull-right">Ticket-Art: {{ ticket.ticket.typ }}</h4>
+        </div>
+        <button class="btn btn-primary" ng-click="toCustomer(ticket.ticket)">Switch to Customer</button>
+        <a class="btn btn-info" href="{{ ticket.ticket.gsUrl }}" ng-if="ticket.ticket.gameserverID">Switch to Gameserver</a>
+    </div>
+    <div class="panel-body">
+        <div class="row mb20" ng-repeat="answer in ticket.ticketAnswer">
+            <div class="col-sm-6" ng-class="{true:'pull-right', false:''}[answer.support=='1']">
+                <div class="message" ng-class="{true:'message-supporter', false:'message-own'}[answer.support=='1']">
+                    <div class="message-content" ng-bind-html="answer.message"></div>
+                    <div class="message-date">
+                        {{ answer.username }} - {{ answer.date|germanDate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form method="post" class="mt30">
+            <ng-simditor content="message"></ng-simditor>
+            <button class="mt20 btn btn-primary pull-right" ng-click="answerTicket()">Answer</button>
+        </form>
+    </div>
+</div>

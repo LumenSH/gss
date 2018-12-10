@@ -1,0 +1,22 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContainer %}
+    <div class="row" ng-controller="MainController">
+        {% block pageContent %}
+            <div ng-view></div>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block footerJs %}
+    <script>
+        var gs3Config = {{  getJSData() }};
+        window.onDocumentReady = function () {};
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.9/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.9/angular-resource.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.9/angular-sanitize.min.js"></script>
+    <script src="{{ baseUrl }}src/gs3.min.js"></script>
+    <script src="{{ baseUrl }}src/gs3_backend.min.js"></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <form ng-submit="saveForum()">
+            <div class="form-group">
+                <label>Name:</label>
+                <input class="form-control" ng-model="forum.boardName">
+            </div>
+            <div class="form-group">
+                <label>Beschreibung:</label>
+                <input class="form-control" ng-model="forum.boardSubName">
+            </div>
+            <div class="form-group">
+                <label>Unter dem Board:</label>
+                <input class="form-control" ng-model="forum.boardSub">
+            </div>
+            <div class="form-group">
+                <label>Sortierung:</label>
+                <input class="form-control" ng-model="forum.boardOrder">
+            </div>
+            <div class="form-group">
+                <label>Type:</label>
+                <input class="form-control" ng-model="forum.boardType">
+            </div>
+            <div class="form-group">
+                <label>Slug:</label>
+                <input class="form-control" ng-model="forum.slug">
+            </div>
+            <button class="btn btn-primary pull-right">Speichern</button>
+        </form>
+    </div>
+</div>

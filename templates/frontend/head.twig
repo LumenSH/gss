@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de"{% if currentModule == 'Backend' %} ng-app="gsBackend"{% endif %} itemscope="itemscope" itemtype="http://schema.org/WebPage">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="MobileOptimized" content="320">
+        <meta itemprop="isFamilyFriendly" content="True" />
+        <meta itemprop="copyrightHolder" content="Gameserver-Sponsor" />
+        <meta itemprop="copyrightYear" content="{{ "now"|date("Y") }}" />
+        <meta name="theme-color" content="#262B33"/>
+        {% if blogItem.content_en is empty %}
+        <meta name="description" content="{% if record.meta.description is not empty %}{{ record.meta.description|raw }}{% else %}{{ __('Gameserver-Sponsor ist ein kostenloser Gameserver Anbieter und besteht schon seit April 2013. Außerdem nutzt Gameserver-Sponsor ein selbst entwickeltes Control Panel, welches stätig weiter entwickelt wird', 'DefaultMetadescription', 'Head') }}{% endif %}">
+        {% else %}
+        <meta name="description" content="{{ blogItem.content_en|striptags|truncate(300)|raw|trim }}">
+        {% endif %}
+        {% if pageImage is defined %}
+            <meta property="og:type" content="website" />
+            <meta property="og:site_name" content="Gameserver-Sponsor" />
+            <meta property="og:title" content="{{ pageTitel }}" />
+            <meta property="og:description" content="{{ pageDescription }}" />
+            <meta property="og:image" content="{{ pageImage }}" />
+            <meta name="twitter:card" content="website" />
+            <meta name="twitter:site" content="Gameserver-Sponsor" />
+            <meta name="twitter:title" content="{{ pageTitel }}" />
+            <meta name="twitter:description" content="{{ pageDescription }}" />
+            <meta name="twitter:image" content="{{ pageImage }}" />
+        {% endif %}
+        <meta name="keywords" content="{% if record.meta.keywords is not empty %}{{ record.meta.keywords }}{% else %}{{ __('gameserver,free,csgo,css,mta,samp,minecraft,multitheftauto', 'MetaKeywords', 'Head') }}{% endif %}">
+        <meta name="robots" content="{% if record.meta.robots is not empty %}{{ record.meta.robots }}{% else %}index, follow{% endif %}">
+        <title itemprop="name">{% if record.title is defined %}{{ record.title }}{% else %}{{ pageTitle }}{% endif %} :: Gameserver-Sponsor</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+        <link rel="stylesheet" type="text/css" href="{{ preload(asset('/src/gs3.min.css', 'static'), { as: 'style' }) }}"/>
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+        <script>
+            var OneSignal = window.OneSignal || [];
+            OneSignal.push(["init", {
+                appId: "***REMOVED***",
+                autoRegister: false,
+                notifyButton: {
+                    enable: false
+                }
+            }]);
+
+        </script>
+    </head>

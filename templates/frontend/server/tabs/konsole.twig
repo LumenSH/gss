@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="{% if gs["consoleCommands_" ~ request.language] is empty %}col-xs-12{% else %}col-md-8 col-sm-12{% endif %}">
+        <textarea readonly class="form-control console" id="serverLog">{{ gsLog }}</textarea>
+        <input id="serverConsole" class="form-control" placeholder="{{ __("Console: Drücken sie Enter um ein Befehl abzusenden", "PressEnterConsoleSend", 'Server') }}">
+    </div>
+    {% if gs["consoleCommands_" ~ request.language] is not empty %}
+    <div class="col-md-4 col-sm-12">
+        <div class="panel panel-primary mt20-xs">
+            <div class="panel-heading">{{ __("Konsolen Hilfe", "ConsolHelp", "Server") }}</div>
+            <div class="panel-body">
+                {{ gs["consoleCommands_" ~ request.language]|raw }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

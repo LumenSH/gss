@@ -1,0 +1,66 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span class="board-title">{{ board.boardName }}</span>
+            {% if User is not empty %}
+                <a href="{{ baseUrl }}forum/create/{{ board.id }}" class="btn btn-primary pull-right create--thread">
+                    {{ __("Neues Thema erstellen", 'CreateNewThread', 'Forum') }} <i class="pl5 icon ion-edit"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="panel-body pa0">
+            <div class="forum-board-header clearfix">
+                <div class="col-xs-6">
+                    <strong>{{ __("Thema / Verfasser", 'ThemaVerfasser', 'Forum') }}</strong>
+                </div>
+                <div class="col-sm-1 hidden-xs">
+                    <strong>{{ __("Antworten", 'Antworten', 'Forum') }}</strong>
+                </div>
+                <div class="col-sm-1 hidden-xs">
+                    <strong>{{ __("Ansichten", 'Ansichten', 'Forum') }}</strong>
+                </div>
+                <div class="col-sm-4 col-xs-6">
+                    <strong>{{ __("Letzer Beitrag", "LastPostHead", 'Forum') }}</strong>
+                </div>
+            </div>
+            {% for thread in threads %}
+                <div class="clearfix forum-board pb10">
+                    <div class="col-sm-1 hidden-xs">
+                        <a href="{{ baseUrl }}user/{{ thread.creatorUser }}" data-tooltip="true" data-placement="top"
+                           title="{{ thread.creatorUser }}">
+                            {{ avatar(thread.creatorAvatar, "img-responsive ma5 img-round") }}
+                        </a>
+                    </div>
+                    <div class="col-sm-5 col-xs-6">
+                        <div>
+                            <a class="fz-18 break-word block" href="{{ baseUrl }}{{ thread.link }}">{{ thread.threadName }}</a>
+                            <div>{{ __("Erstellt von", 'CreatedFrom', 'Forum') }} <a
+                                        href="{{ baseUrl }}user/{{ thread.creatorUser|lower }}">{{ thread.creatorUser }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 hidden-xs">{{ thread.entriesCount }}</div>
+                    <div class="col-sm-1 hidden-xs">{{ thread.threadViews }}</div>
+                    <div class="col-sm-4 col-xs-6">
+                        <div class="width-100">
+                            {% if thread.lastAnswer is not empty %}
+                                {{ avatar(thread.lastAnswer.avatar, 'post-image img-round') }}
+                                <div class="post-thread-name">
+                                    <a href="{{ baseUrl }}{{ subBoard.latestLink }}"
+                                       class="fw-600 block">{{ thread.threadName }}</a>
+
+                                    <a href="{{ baseUrl }}user/{{ thread.lastAnswer.username|lower }}"
+                                           class="fw-600">{{ thread.lastAnswer.username }}</a>
+                                        -
+                                        {{ thread.lastAnswer.date|timeDiff }}
+                                    </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

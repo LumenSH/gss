@@ -1,0 +1,5 @@
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: false
+    form_themes:
+        - 'form/form.twig'

@@ -1,0 +1,61 @@
+<div class="list-group">
+    <div class="list-group-item">
+        <div class="row-action-primary mr20">
+            <i class="icon ion-ios-folder"></i>
+        </div>
+        <div class="row-content">
+            <div class="action-secondary"><i class="mdi-material-info"></i></div>
+            <h4 class="list-group-item-heading">{{ __("FTP Zugänge", "FTPAccount", "Shop") }}</h4>
+            <p class="list-group-item-text">{{ __("Hole dir einen weiteren FTP Zugang für nur", "FTPAccountInfo", "Shop") }} {{ upgrades.ftp }}GP<p>
+                <a href="{{ baseUrl }}shop/index/upgrades/ftp" onclick="return window.confirm('{{ __("Möchtest du wirklich einen weiteren FTP Zugang kaufen?", 'ConfirmFTP', 'Shop') }}')" class="btn btn-primary btn-xs">{{ __("Jetzt Bestellen", "orderNow", "Shop") }}</a></p>
+        </div>
+    </div>
+    <div class="list-group-separator"></div>
+    <div class="list-group-item">
+        <div class="row-action-primary mr20">
+            <i class="ion-android-options"></i>
+        </div>
+        <div class="row-content">
+            <div class="action-secondary"><i class="mdi-material-info"></i></div>
+            <h4 class="list-group-item-heading">{{ __("MySQL Datenbanken", "MySQLAccount", "Shop") }}</h4>
+            <p class="list-group-item-text">{{ __("Hole dir einen weiteren MySql Zugang für nur", "MySQLAccountInfo", "Shop") }} {{ upgrades.mysql }}GP<p>
+                <a href="{{ baseUrl }}shop/index/upgrades/mysql" onclick="return window.confirm('{{ __("Möchtest du wirklich einen weiteren MySQL Zugang kaufen?", 'ConfirmDB', 'Shop') }}')" class="btn btn-primary btn-xs">{{ __("Jetzt Bestellen", "orderNow", "Shop") }}</a></p>
+        </div>
+    </div>
+    <div class="list-group-separator"></div>
+    <div class="list-group-item">
+        <div class="row-action-primary mr20">
+            <i class="ion-ios-people"></i>
+        </div>
+        <div class="row-content">
+            <div class="action-secondary"><i class="mdi-material-info"></i></div>
+            <h4 class="list-group-item-heading">{{ __("Gast Zugänge", "GuestAccounts", "Shop") }}</h4>
+            <p class="list-group-item-text">{{ __("Hole dir einen weiteren Gast Zugang für nur", "GuestAccountsInfo", "Shop") }} {{ upgrades.gast }}GP<p>
+                <a href="{{ baseUrl }}shop/index/upgrades/gast" onclick="return window.confirm('{{ __("Möchtest du wirklich einen weiteren Gastzugang Zugang kaufen?", 'ConfirmGuest', 'Shop') }}')" class="btn btn-primary btn-xs">{{ __("Jetzt Bestellen", "orderNow", "Shop") }}</a></p>
+        </div>
+    </div>
+    <div class="list-group-separator"></div>
+    <div class="list-group-item">
+        <div class="row-action-primary mr20">
+            <i class="ion-cloud"></i>
+        </div>
+        <div class="row-content">
+            <div class="action-secondary"><i class="mdi-material-info"></i></div>
+            <h4 class="list-group-item-heading">{{ __("Weitere Server", "ExtraPassiveServer", "Shop") }}</h4>
+            <p class="list-group-item-text">{{ __("Hole dir einen weitere Server für nur", "ExtraPassiveServerInfo", "Shop") }} {{ upgrades.server }}GP<p>
+                <a href="{{ baseUrl }}shop/index/upgrades/server" onclick="return window.confirm('{{ __("Möchtest du wirklich einen weiteren Passiven Server kaufen?", 'ConfirmPassiveServer', 'Shop') }}')" class="btn btn-primary btn-xs">{{ __("Jetzt Bestellen", "orderNow", "Shop") }}</a></p>
+        </div>
+    </div>
+    <div class="list-group-separator"></div>
+    <div class="list-group-item">
+        <div class="row-action-primary mr20">
+            <i class="ion-android-more-horizontal"></i>
+        </div>
+        <div class="row-content">
+            <div class="action-secondary"><i class="mdi-material-info"></i></div>
+            <h4 class="list-group-item-heading">{{ __("Weitere Server Slots", "ExtraPassiveServerSlots", "Shop") }}</h4>
+            <p class="list-group-item-text">{{ __("Erhöhe jetzt deine Maximale Slot anzahl schon ab", "ExtraPassiveServerSlotsInfo", "Shop") }} {{ upgrades.slots }}GP<p>
+                <a href="{{ baseUrl }}shop/index/upgrades/slots" onclick="return window.confirm('{{ __("Möchtest du wirklich einen weiteren Passiven Server Slot kaufen?", 'ConfirmPassiveServerSlot', 'Shop') }}')" class="btn btn-primary btn-xs">{{ __("Jetzt Bestellen", "orderNow", "Shop") }}</a></p>
+        </div>
+    </div>
+</div>

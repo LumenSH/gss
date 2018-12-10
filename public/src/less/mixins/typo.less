@@ -1,0 +1,39 @@
+// font-size small
+.fontsizeClass (@start, @end) when (@end >= @start) {
+    .fz-@{start} {
+        font-size: @start + 0px;
+    }
+    .fontsizeClass(@start + 2, @end);
+}
+
+// font-size big
+.fontsizeBigClass (@start, @end) when (@end >= @start) {
+    .fz-@{start} {
+        font-size: @start + 0px;
+    }
+    .fontsizeBigClass(@start + 4, @end);
+}
+
+// font-weight all
+.fontweightClass (@start, @end) when (@end >= @start) {
+    .fw-@{start} {
+        font-weight: @start;
+    }
+    .fontweightClass(@start + 100, @end);
+}
+
+// line-height small
+.lheightClass (@start, @end) when (@end >= @start) {
+    .lh-@{start} {
+        line-height: @start + 0px;
+    }
+    .lheightClass(@start + 2, @end);
+}
+
+// line-height big
+.lheightBigClass (@start, @end) when (@end >= @start) {
+    .lh-@{start} {
+        line-height: @start + 0px;
+    }
+    .lheightBigClass(@start + 5, @end);
+}

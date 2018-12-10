@@ -1,0 +1,11 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="clearfix">
+        {% for blogItem in blog.items %}
+            {% include "frontend/blog/listing_item.twig" %}
+        {% endfor %}
+
+        {% include "frontend/_includes/pagination.twig" %}
+    </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    {% if limitReached is empty %}
+        {% if invalidNumber is not empty %}
+            <div class="alert alert-danger">{{ __("This phonenumer is already in use or wrong.", 'InvalidNumberOrInUse', 'User') }}</div>
+        {% endif %}
+
+        {% if smsSend is empty %}
+            <div class="alert alert-info">{{ __("Please enter your phonenumer in format of: +49 15731111", 'PhonenumberFormat', 'User') }}</div>
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <button class="btn btn-primary pull-right">{{ __('activate', 'Activate', 'User') }}</button>
+            {{ form_end(form) }}
+        {% else %}
+            <form method="post">
+                <div class="form-group">
+                    <label>Code:</label>
+                    <input type="number" name="code" class="form-control"/>
+                </div>
+
+                <a href="?reset=true" class="pull-right">{{ __('try a other Phonenumer', 'OtherNumber', 'User') }}</a>
+
+                <button class="btn btn-primary pull-left">{{ __('Activate', 'Activate', 'User') }}</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-danger">{{ __("You can only do 3 SMS attemps per day.", 'SMSAttempsReached', 'User') }}</div>
+    {% endif %}
+{% endblock %}
+
+
+{% block footerJs %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/9.2.4/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/9.2.4/js/intlTelInput.min.js"></script>
+    <script>
+        $('#sms_verification_mobilenumber').intlTelInput({
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            }
+        });
+    </script>
+{% endblock %}

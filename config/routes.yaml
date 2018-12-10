@@ -1,0 +1,6 @@
+api_login_check:
+    path: /api/login
+
+cms:
+    path: /{slug}
+    defaults: {_controller: GSS\Controller\Frontend\CmsController:detailAction}

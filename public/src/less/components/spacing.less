@@ -1,0 +1,22 @@
+.make-spacing(@spacing-width, p, padding);
+.make-spacing(@spacing-width, m, margin);
+
+@media (min-width: 0px) and (max-width: @screen-sm-min) {
+  .make-spacing(@spacing-width, p, padding, -xs);
+  .make-spacing(@spacing-width, m, margin, -xs);
+}
+
+@media (min-width: @screen-sm-min) {
+  .make-spacing(@spacing-width, p, padding, -sm);
+  .make-spacing(@spacing-width, m, margin, -sm);
+}
+
+@media (min-width: @screen-md-min) {
+  .make-spacing(@spacing-width, p, padding, -md);
+  .make-spacing(@spacing-width, m, margin, -md);
+}
+
+@media (min-width: @screen-lg-min) {
+  .make-spacing(@spacing-width, p, padding, -lg);
+  .make-spacing(@spacing-width, m, margin, -lg);
+}

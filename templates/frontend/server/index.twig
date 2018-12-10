@@ -1,0 +1,83 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="mt0">{{ __("Gameserver-Verwaltung", "portlethead", "Server") }}</h2>
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#verwaltung" data-toggle="tab">{{ __("Verwaltung", "managment", "Server") }}</a>
+                </li>
+                {% if gsObj.hasPermission("konsole") %}
+                    <li>
+                        <a href="#konsole" data-toggle="tab">{{ __("Konsole", "console", "Server") }}</a>
+                    </li>
+                {% endif %}
+                {% if gsObj.hasPermission("config") %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ __("Editor", "configeditor", "Server") }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for config in gsConfigs %}
+                                <li><a data-configname="{{ config.name }}" data-mode="{{ config.type }}" href="#config" data-toggle="tab">{{ __("Bearbeite", "edit", "Server") }} {{ config.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% if gsForm is not empty %}
+                        <li>
+                            <a href="#spielconfig" data-toggle="tab">{{ __("Spielspezifische Optionen", "Game_Options", "Server") }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                {% if gs.userID == User.id or hasPermission('admin_gameserver') %}
+                    <li>
+                        <a href="#ftp_mysql" data-toggle="tab">{{ __("FTP und MySQL", "FTP_MYSQL", "Server") }}</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="#banner" data-toggle="tab">{{ __("Server Banner", "serverbanner", "Server") }}</a>
+                </li>
+                {% if gs.typ == 0 and gs.banner and gs.userID == User.id or gs.typ == 0 and gs.banner and hasPermission('admin_gameserver') %}
+                    {% if upgrades is not empty %}
+                        <li>
+                            <a href="#upgrade" data-toggle="tab">{{ __("Upgrade", "upgrade", "Server") }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                {% if gs.userID == User.id or hasPermission('admin_gameserver') %}
+                    <li>
+                        <a href="#rights" data-toggle="tab">{{ __("Server Berechtigungen", "ServerRights", "Server") }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="panel-body clearfix">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="verwaltung">{% include "frontend/server/tabs/verwaltung.twig" %}</div>
+                {% if gsObj.hasPermission("konsole") %}
+                    <div class="tab-pane fade" id="konsole">{% include "frontend/server/tabs/konsole.twig" %}</div>
+                {% endif %}
+                {% if gsObj.hasPermission("config") %}
+                    <div class="tab-pane fade" id="config"></div>
+                    {% if gsForm is not empty or hasPermission('admin_gameserver') %}
+                        <div class="tab-pane fade" id="spielconfig">{% include "frontend/server/tabs/gameconfig.twig" %}</div>
+                    {% endif %}
+                {% endif %}
+                {% if gs.userID == User.id or hasPermission('admin_gameserver') %}
+                    <div class="tab-pane fade" id="ftp_mysql">{% include "frontend/server/tabs/ftp_mysql.twig" %}</div>
+                {% endif %}
+                {% if gs.Typ == 0 and gs.userID == User.id or hasPermission('admin_gameserver') %}
+                    {% if gs.banner %}
+                        <div class="tab-pane fade" id="banner">{% include "frontend/server/tabs/banner.twig" %}</div>
+                    {% endif %}
+                    <div class="tab-pane fade" id="upgrade">{% include "frontend/server/tabs/upgrade.twig" %}</div>
+                {% endif %}
+                {% if gs.userID == User.id or hasPermission('admin_gameserver') %}
+                    <div class="tab-pane fade" id="rights">{% include "frontend/server/tabs/rights.twig" %}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% include "frontend/server/tabs/modal.twig" %}
+{% endblock %}

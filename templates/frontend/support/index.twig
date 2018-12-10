@@ -1,0 +1,56 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Ordner</h4>
+                </div>
+                <div class="panel-body">
+                    <a class="btn {% if folder == 0 %}btn-primary{% else %}btn-default{% endif %} btn-block" href="{{ baseUrl }}support/index/0">{{ __('Offene Tickets', 'OpenedTickets', 'Support') }} ({{ count.opened }})</a>
+                    <a class="btn {% if folder == 1 %}btn-primary{% else %}btn-default{% endif %} btn-block" href="{{ baseUrl }}support/index/1">{{ __('Geschlossene Tickets', 'ClosedTickets', 'Support') }} ({{ count.closed }})</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="inline-block">Tickets</h4>
+                    {% if folder == 0 %}
+                        <a class="btn btn-primary pull-right" href="{{ baseUrl }}support/new">{{ __("Neues Ticket", "NewTicket", "Support") }}</a>
+                    {% endif %}
+                </div>
+                <div class="panel-body pa0">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>{{ __('Frage', 'Question', 'Support') }}</th>
+                            <th>{{ __('Erstellt am', 'CreatedAt', 'Support') }}</th>
+                            <th>{{ __('Letzte Antwort am', 'LastAnswerAt', 'Support') }}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in data %}
+                            <tr>
+                                <td>#{{ row.id }}</td>
+                                <td>{{ row.name }}</td>
+                                <td>{{ row.created_at|date("d.m.Y H:i") }}</td>
+                                <td>{{ row.lastchange_at|date("d.m.Y H:i") }}</td>
+                                <td class="col-xs-1">
+                                    <a class="btn btn-info btn-xs btn-block" href="{{ path('gss_frontend_support_view', {ticketID: row.id}) }}">{{ __('Anschauen', 'Look', 'Support') }}</a>
+                                    {% if folder == 0 %}
+                                        <a class="btn btn-danger btn-xs btn-block" href="{{ baseUrl }}support/close/{{ row.id }}">{{ __('Ticket schliessen', 'CloseTicket', 'Support') }}</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

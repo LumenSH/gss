@@ -1,0 +1,15 @@
+{% if gs.state == 1 %}
+    <div class="alert alert-info">{{ __("Dein Gameserver wird in kürze geupdatet.", "updateing", "Server") }}</div>
+{% elseif gs.state != 0 %}
+    <div class="clearfix">
+        <div class="progress-bar progress-bar-info progress-bar-striped active mb20" role="progressbar" style="width: {% if gs.state == 2 %}50{% else %}100{% endif %}%;">
+            {% if gs.state == 2 %}
+                {{ __('Gameserver wird zum löschen vorbereitet', 'DeleteGameserver1', 'Server') }}
+            {% elseif gs.state == 3 %}
+                {{ __('Spiel wird installiert', 'DeleteGameserve31', 'Server') }}
+            {% endif %}
+        </div>
+    </div>
+{% elseif gs.state == 4 %}
+    <div class="alert alert-danger">{{ __("Dein Gameserver wird in kürze gelöscht", "delete", "Server") }}</div>
+{% endif %}

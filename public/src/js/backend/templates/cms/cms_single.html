@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="mtm">
+                {{ title }}
+            </h2>
+        </div>
+        <ul class="nav nav-tabs" role="tablist">
+            <li ng-class="$tab == 'de' ? 'active' : ''">
+                <a ng-click="$tab = 'de'">Deutsch</a>
+            </li>
+            <li ng-class="$tab == 'en' ? 'active' : ''">
+                <a ng-click="$tab = 'en'">Englisch</a>
+            </li>
+        </ul>
+        <form method="post">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Slug:</label>
+                    <input class="form-control" ng-model="cms.slug">
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade" ng-class="$tab == 'de' ? 'in active' : ''">
+                        <div class="form-group">
+                            <label>Title: </label>
+                            <input type="text" ng-model="cms.title.de" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Inhalt: </label>
+                            <div ng-model="cms.content.de" ui-ace="{mode: 'html'}" style="height: 400px"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Meta Description</label>
+                            <input ng-model="cms.meta.de.description" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Meta Keywords</label>
+                            <input ng-model="cms.meta.de.keywords" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Robots</label>
+                            <select ng-model="cms.meta.de.robots" class="form-control">
+                                <option value="index, follow">index, follow</option>
+                                <option value="noindex, follow">noindex, follow</option>
+                                <option value="index, nofollow">index, nofollow</option>
+                                <option value="noindex, nofollow">noindex, nofollow</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" ng-class="$tab == 'en' ? 'in active' : ''">
+                        <div class="form-group">
+                            <label>Title: </label>
+                            <input type="text" ng-model="cms.title.en" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Inhalt: </label>
+                            <div ng-model="cms.content.en" ui-ace="{mode: 'html'}" style="height: 400px"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Meta Description</label>
+                            <input ng-model="cms.meta.en.description" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Meta Keywords</label>
+                            <input ng-model="cms.meta.en.keywords" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Robots</label>
+                            <select ng-model="cms.meta.en.robots" class="form-control">
+                                <option value="index, follow">index, follow</option>
+                                <option value="noindex, follow">noindex, follow</option>
+                                <option value="index, nofollow">index, nofollow</option>
+                                <option value="noindex, nofollow">noindex, nofollow</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" ng-click="save()" class="btn btn-primary pull-right" value="Speichern">
+            </div>
+        </form>
+    </div>
+</div>

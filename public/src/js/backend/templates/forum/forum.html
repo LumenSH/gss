@@ -1,0 +1,36 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2 class="mtm">Forum Verwaltung
+            <a href="#!/forum/add" class="btn btn-primary pull-right">Neues Board anlegen</a>
+        </h2>
+    </div>
+    <div class="panel-body pa0">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th class="col-xs-1">ID</th>
+                    <th class="col-xs-3">Name</th>
+                    <th class="col-xs-2">Beschreibung</th>
+                    <th class="col-xs-3">Unter dem Board</th>
+                    <th class="col-xs-1">Sortierung</th>
+                    <th class="col-xs-1">Typ</th>
+                    <th class="col-xs-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="forumRow in forum.data">
+                <td>{{ forumRow.id }}</td>
+                <td>{{ forumRow.boardName }}</td>
+                <td>{{ forumRow.boardSubName }}</td>
+                <td>{{ forumRow.boardSub}}</td>
+                <td>{{ forumRow.boardOrder}}</td>
+                <td>{{ forumRow.boardType == '1' ? 'Kategorie' : 'Forum'}}</td>
+                <td>
+                    <button class="btn btn-primary btn-block" ng-click="editForum(forumRow)">Bearbeiten</button>
+                    <button class="btn btn-danger btn-block" ng-click="deleteForum(forumRow)">Löschen</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^7.1.3",
+        "ext-iconv": "*",
+        "andres-montanez/magallanes": "^4.0",
+        "chonsser/oauth2-discord": "^1.0",
+        "cocur/slugify": "^2.3",
+        "depotwarehouse/oauth2-twitch": "^1.3",
+        "doctrine/dbal": "^2.6",
+        "doctrine/doctrine-migrations-bundle": "^1.3",
+        "gss/gameq": "dev-master",
+        "jamesryanbell/cloudflare": "^1.11",
+        "league/oauth2-client": "^2.2",
+        "league/oauth2-facebook": "^2.0",
+        "league/oauth2-google": "^2.0",
+        "lexik/jwt-authentication-bundle": "^2.4",
+        "norkunas/onesignal-php-api": "^1.0",
+        "php-amqplib/php-amqplib": "^2.6",
+        "php-http/guzzle6-adapter": "^1.1",
+        "phpseclib/phpseclib": "*",
+        "roave/security-advisories": "dev-master",
+        "sentry/sentry-symfony": "^2.0",
+        "symfony/asset": "^4.0",
+        "symfony/console": "v4.0.14",
+        "symfony/dotenv": "^4.0",
+        "symfony/flex": "^1.0",
+        "symfony/form": "^4.0",
+        "symfony/framework-bundle": "v4.0.14",
+        "symfony/http-foundation": "v4.0.14",
+        "symfony/http-kernel": "v4.0.14",
+        "symfony/lts": "^4@dev",
+        "symfony/monolog-bundle": "^3.1",
+        "symfony/swiftmailer-bundle": "^3.2",
+        "symfony/twig-bundle": "^4.0",
+        "symfony/validator": "^4.0",
+        "symfony/web-link": "^4.0",
+        "symfony/yaml": "^4.0",
+        "twig/extensions": "^1.5",
+        "twilio/sdk": "^5.13"
+    },
+    "require-dev": {
+        "codeception/codeception": "^2.4",
+        "symfony/profiler-pack": "^1.0"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "GSS\\": "src/"
+        },
+        "files": ["src/Component/Language/TranslationHelper.php"]
+    },
+    "replace": {
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php56": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "id": "01C7SF396EGA3762YPPF6Q77A9",
+            "allow-contrib": false
+        }
+    }
+}

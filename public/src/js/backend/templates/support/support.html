@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>Filter</h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Search</label>
+                    <input type="text" ng-model="search.search" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Ticket ID</label>
+                    <input type="text" ng-model="search.id" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Ticket status</label>
+                    <select ng-model="search.folder" class="form-control">
+                        <option value="-1">Alle</option>
+                        <option value="0">Offen</option>
+                        <option value="1">Geschlossen</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ticket type</label>
+                    <select ng-model="search.type" class="form-control" ng-options="option.name for option in options.types track by option.id"></select>
+                </div>
+                <div class="form-group">
+                    <label>Game</label>
+                    <select ng-model="search.game" class="form-control" ng-options="game.name for game in options.games track by game.id"></select>
+                </div>
+                <button class="btn btn-primary col-xs-12" ng-click="refreshTickets()">Search</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="mtm">Tickets</h2>
+            </div>
+            <div class="panel-body pa0">
+                <table class="table table-striped mb0">
+                    <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th>User</th>
+                        <th>Type</th>
+                        <th>Game</th>
+                        <th>Created at</th>
+                        <th>Last answer date</th>
+                        <th>Last answer from</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ticket in tickets.data">
+                            <td>{{ ticket.name }}</td>
+                            <td>{{ ticket.Username }}</td>
+                            <td>{{ ticket.typ }}</td>
+                            <td>{{ ticket.Game }}</td>
+                            <td>{{ ticket.created_at|germanDate }}</td>
+                            <td>{{ ticket.lastchange_at|germanDate }}</td>
+                            <td ng-class="{true:'', false:'fw-800'}[ticket.lastAnswerRole=='default']" >{{ ticket.lastAnswer }}</td>
+                            <td>
+                                <a ng-click="openTicket(ticket)" class="btn btn-default block">Open</a>
+                                <a ng-click="closeTicket(ticket)" class="btn btn-danger block">Close</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <nav>
+            <ul class="pagination center-items">
+                <li ng-repeat="pagi in tickets.pageination">
+                    <a ng-click="loadPage(pagi)">{{ pagi }}</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

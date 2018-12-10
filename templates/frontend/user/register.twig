@@ -1,0 +1,16 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="mt10">{{ __('Registrieren', 'Register', 'User') }}</h2>
+        </div>
+        <div class="panel-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <input type="submit" class="btn btn-primary pull-right" value="{{ __('Registrieren', 'RegisterNow', 'User') }}">
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

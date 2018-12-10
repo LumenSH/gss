@@ -1,0 +1,30 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2 class="mtm">CMS Übersicht
+            <a href="#!/cms/add" class="btn btn-primary pull-right">Neue Seite erstellen</a>
+        </h2>
+    </div>
+    <div class="panel-body pa0">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th class="col-xs-1">ID</th>
+                    <th class="col-xs-6">Titel</th>
+                    <th class="col-xs-2">Slug</th>
+                    <th class="col-xs-3">Aktion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="page in cms.data">
+                    <td>{{ page.id }}</td>
+                    <td>{{ page.title.de }}</td>
+                    <td>{{ page.slug }}</td>
+                    <td>
+                        <a class="btn btn-primary" ng-click="editCms(page)">Bearbeiten</a>
+                        <a class="btn btn-danger" ng-click="deleteCms(page)">Löschen</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

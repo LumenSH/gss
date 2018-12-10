@@ -1,0 +1,18 @@
+{% extends "frontend/layout.twig" %}
+
+{% block pageContent %}
+    <div>
+        <h1 class="mt0 mb20">{{ __("404 - Seite nicht gefunden", '404PageTitle', '404') }}</h1>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <h3 class="mt0">{{ __("Oops! Hier bist du falsch.", "lost", "404") }}</h3>
+            <p>
+                {{ __("Wir konnten die Seite, die du aufrufen möchtest nicht finden.", "pagenotfound", "404") }}<br>
+                <a href="{{ baseUrl }}">
+                    {{ __("Zurück zur Startseite", "returnhome", "404") }}</a>
+            </p>
+            <p>
+        </div>
+    </div>
+{% endblock %}

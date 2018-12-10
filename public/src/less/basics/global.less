@@ -1,0 +1,255 @@
+body {
+    background: url("../img/shattered.png");
+    > footer {
+        background: #2C3E50;
+        color: #babcbf;
+        a{
+            color: #babcbf;
+            &:hover {
+                color: #babcbf;
+                text-decoration: none;
+            }
+        }
+        .center-block {
+            position: relative;
+            top: 9px;
+        }
+    }
+    > main {
+        min-height: ~"calc(100vh - 160px)";
+    }
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+.block {
+    display: block;
+}
+.inline-block {
+    display: inline-block;
+}
+.pos-absolute {
+    position: absolute;
+}
+.pos-relative {
+    position: relative;
+}
+.img-round {
+    border-radius: 50%;
+    text-align: center;
+}
+.txt-center {
+    text-align: center;
+}
+.break-word {
+    word-wrap: break-word;
+}
+
+.txt-white {
+    color: @white;
+}
+.txt-black {
+    color: @black !important;
+}
+.txt-blue {
+    color: @primary !important;
+}
+.txt-gray {
+    color: @dark-gray;
+}
+.txt-dark-font {
+    color: @dark-font-primary;
+    &:hover, &:active, &:focus {
+        color: @white;
+    }
+}
+.txt-red {
+    color: @red;
+}
+.txt-green {
+    color: @gp-color;
+}
+.bg-white {
+    background: @white;
+}
+.bg-blue {
+    background: @primary;
+}
+.bg-primary-light {
+    background: @brand-primary-light;
+}
+a, a:active, a:focus, a:hover, input, input:active, input:focus, input:hover{
+    outline: 0 !important;
+}
+.entry-date {
+    font: 10px/1 "Roboto Condensed",sans-serif;
+    text-align: center;
+    .posted-month,
+    .posted-year {
+        display: block;
+        font-size: 1.4em;
+        line-height: 1.25;
+        text-transform: uppercase;
+    }
+    .posted-month {
+        font-size: 1.6em;
+    }
+    .posted-date {
+        display: block;
+        font-size: 2.8em;
+    }
+}
+.lh-32 {
+    line-height: 32px;
+}
+.fz-25 {
+    font-size: 25px;
+}
+.center-items {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.post {
+    margin-bottom: 20px;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+
+    .entry-date {
+        position: absolute;
+        left: 20px;
+        top: 17px;
+        text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        color: @white;
+    }
+    .entry-title {
+        position: absolute;
+        left: 20px;
+        bottom: 13px;
+        margin: 0;
+        font-size: 28px;
+        line-height: 34px;
+        font-weight: 700;
+        text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        .entry-link {
+            color: @white;
+        }
+    }
+    main.entry-content {
+        padding: 25px 20px;
+        background: #f5f5f5;
+        font-size: 16px;
+        border-bottom: 1px #333333 solid;
+    }
+    header {
+        min-height: 200px;
+        background-position: center center;
+    }
+    footer {
+        .post-image {
+            width: 32px;
+            height: 32px;
+        }
+        .post-author {
+            color: @dark-gray;
+        }
+        a {
+            text-decoration: none;
+            .icon:not(.fz-28) {
+                font-size: 30px;
+            }
+            .icon-text {
+                position: relative;
+                top: -6px;
+            }
+
+            &:focus, &:hover, &:active {
+                text-decoration: none;
+            }
+        }
+        .more-read {
+            border: 1px #666666 solid;
+            border-radius: 0;
+            &:hover {
+                background: #666666;
+                color: @white;
+            }
+        }
+        background: #f5f5f5;
+    }
+}
+.modal-content {
+	border-radius: 0;
+}
+.clickable {
+    &:hover {
+        cursor: pointer;
+    }
+}
+.underline {
+    text-decoration: underline;
+}
+.discord {
+  background: #738bd7;
+  height: 54px;
+  position: relative;
+  .discord-img {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  }
+  span {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20px;
+  }
+}
+.grouped-btns {
+    span {
+        display: block;
+        height: 30px;
+        line-height: 28px;
+        float: left;
+        padding: 0;
+        min-width: 110px;
+        color: #555;
+        font-size: 14px;
+        border: 1px solid #d7d7d7;
+        border-right-color: transparent;
+        cursor: pointer;
+        background: #fff;
+        text-align: center;
+        &.active, &:hover {
+            text-decoration: none;
+            background-color: #262B33;
+            border-color: #262B33;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+            a {
+                color: @white;
+            }
+        }
+        a {
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}
+.width-100 {
+    width: 100%;
+}
+.shadowbox {
+    &:hover {
+        box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+    }
+}
+.intl-tel-input {
+    width: 100%;
+}
+.lines-added {
+  color: #399839;
+}
+.lines-removed {
+  color: #c33;
+}

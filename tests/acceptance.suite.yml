@@ -1,0 +1,9 @@
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            port: 9515
+            url: 'https://gameserver-sponsor.me/' # put your local url
+            browser: chrome
+            window_size: 1920x1080
+        - \Helper\Acceptance

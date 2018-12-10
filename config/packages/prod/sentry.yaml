@@ -1,0 +1,4 @@
+sentry:
+    options:
+        curl_method: async
+    dsn: "https://f2b114fd513043fab07f9af292a26a9d:bb8cfdf1df324857828d23c8f3bcb535@sentry.shyim.de/11"

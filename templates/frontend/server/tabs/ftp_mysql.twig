@@ -1,0 +1,93 @@
+<div class="alert alert-info">{{ __("<strong>Neu:</strong> Du kannst nun bis zu %mysql% MySQL und bis zu %ftp% FTP Konte(n) einrichten", "FTP/DB_Info", "Server", {'mysql': User.MaxMySQL, 'ftp': User.MaxFTP}) }}</div>
+<div class="col-md-8 col-sm-12 col-xs-12">
+	{% if ftpUsers is not empty %}
+		<div class="panel-group accordion" id="ftp_accordion">
+			<h2 class="mbm mt0">{{ __("FTP Zugänge", "ftpaccounts", "Server") }}</h2>
+			{% for ftpUser in ftpUsers %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle collapsed txt-black" data-toggle="collapse" data-parent="#ftp_accordion" href="#ftp_{{ loop.index }}">
+								{{ ftpUser.name }}
+							</a>
+						</h4>
+					</div>
+					<div id="ftp_{{ loop.index }}" class="panel-collapse collapse {% if loop.first %}in{% endif %}">
+						<div class="panel-body">
+							<p><strong>{{ __("Zugangs Name:", "accountname", "Server") }}</strong> {{ ftpUser.name }}</p>
+							<p><strong>{{ __("IP Adresse:", "ipadress", "Server") }}</strong> {{ gs.IP }}</p>
+							<p><strong>{{ __("User:", "username", "Server") }}</strong> {{ ftpUser.userid }}</p>
+							<p><strong>{{ __("Beschreibung:", "description", "Server") }}</strong> {{ ftpUser.description }}</p>
+							<p><strong>{{ __("Letzte Verbindung:", "lastconnect", "Server") }}</strong> {{ ftpUser.accessed|date('d.m.Y H:i:s') }}</p>
+							<div class="btn-group btn-group-justified mb20">
+								<a class="btn btn-success ftp-edit" data-id="{{ ftpUser.userid }}">{{ __("FTP bearbeiten", "ftpedit", "Server") }}</a>
+								<a class="btn btn-danger" href="{{ baseUrl }}server/deleteFTP/{{ gs.id }}/{{ ftpUser.userid }}">{{ __("FTP löschen", "ftpdelete", "Server") }}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+	{% if databases is not empty %}
+		<h2 class="mbm mt0">{{ __("MySQL Zugänge", "MySQLAccounts", "Server") }}</h2>
+		<div class="panel-group accordion" id="db_accordion">
+			{% for database in databases %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle collapsed txt-black" data-toggle="collapse" data-parent="#db_accordion" href="#db_{{ loop.index }}">
+								{{ database.databaseName }}
+							</a>
+						</h4>
+					</div>
+					<div id="db_{{ loop.index }}" class="panel-collapse collapse {% if loop.first %}in{% endif %}">
+						<div class="panel-body">
+							<p><strong>{{ __("Zugangs Name:", "accountname", "Server") }}</strong> {{ database.databaseName }}</p>
+							<p><strong>{{ __("IP Adresse:", "ipadress", "Server") }}</strong> 127.0.0.1</p>
+							<p><strong>{{ __("User:", "username", "Server") }}</strong> {{ database.databaseInternalName }}</p>
+							<p><strong>{{ __("Beschreibung:", "description", "Server") }}</strong> {{ database.databaseDescription }}</p>
+							<div class="btn-group btn-group-justified mb20">
+								<a class="btn btn-success database-edit" data-id="{{ database.id }}">{{ __("Datenbank bearbeiten", "databaseedit", "Server") }}</a>
+								<a class="btn btn-info" href="https://pma.gameserver-sponsor.me/" target="_blank">phpMyAdmin</a>
+								<a class="btn btn-danger" href="{{ baseUrl }}server/deleteDB/{{ gs.id }}/{{ database.databaseInternalName }}">{{ __("Datenbank löschen", "databasedelete", "Server") }}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+</div>
+<div class="col-md-4 col-sm-12 col-xs-12">
+	<h2 class="mbm mt0">{{ __("Zugang anlegen", "createaccount", "Server") }}</h2>
+	<form method="post" action="{{ baseUrl }}server/saveAccount/{{ gs.id }}">
+		<div class="form-group">
+			<label class="row col-xs-12">{{ __("Art", "kind", "Server") }}</label>
+			<div class="row col-xs-12">
+				<div class="radio-inline">
+					<label>
+						<input type="radio" name="accountType" value="0" checked> {{ __("FTP", "kindftp", "Server") }}
+					</label>
+					<label class="ml30">
+						<input type="radio" name="accountType" value="1"> {{ __("MySQL", "kindmysql", "Server") }}
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label>{{ __("Name", "createname", "Server") }}</label>
+			<input type="text" name="accountName" class="form-control" placeholder="{{ __("Name", "createname", "Server") }}" required autocomplete="off">
+		</div>
+		<div class="form-group">
+			<label>{{ __("Passwort", "createpassword", "Server") }}</label>
+			<input type="password" name="accountPassword" class="form-control" placeholder="{{ __("Passwort", "createpassword", "Server") }}" required autocomplete="off">
+		</div>
+		<input type="hidden" name="accountPath" value="">
+		<div class="form-group">
+			<label>{{ __("Beschreibung", "createdescription", "Server") }}</label>
+			<textarea class="form-control" name="accountDescription" rows="3" maxlength="100" placeholder="{{ __("Beschreibung", "createdescription", "Server") }}" autocomplete="off"></textarea>
+		</div>
+		<button class="btn btn-info btn-block">{{ __("Zugang anlegen", "createaccountbutton", "Server") }}<div class="ripple-wrapper"></div></button>
+	</form>
+</div>

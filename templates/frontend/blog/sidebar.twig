@@ -1,0 +1,27 @@
+<div class="entry-sidebar-bg pb5 mb20 mt20-xs">
+    <div class="ph15">
+        <h2 class="entry-title mt0 mb25 pt40">{{ __("Übersicht neuester Artikel", "NewBlogItems", "Blog") }}</h2>
+
+        {% for article in recent %}
+            <article>
+                <header class="txt-gray block mb10">{{ article.date|date('d') }} {{ article.month }} {{ article.date|date("Y") }}</header>
+                <main>
+                    <a class="fz-16 fw-600" href="{{ baseUrl }}{{ article.url }}">
+                        {{ article.title }}
+                    </a>
+                </main>
+            </article>
+        {% endfor %}
+    </div>
+</div>
+{% if articleByTag is not empty %}
+    <div class="entry-sidebar-bg ph15 pb5 mb20">
+        <h2 class="entry-title mt0 mb20 pt20">{{ __("Artikel zum Thema", "ArticlesToHistory", "Blog") }}</h2>
+
+        {% for article in articleByTag %}
+            <a class="fz-16 fw-600 block mb20" href="{{ baseUrl }}{{ article.url }}">
+                {{ article.title }}
+            </a>
+        {% endfor %}
+    </div>
+{% endif %}

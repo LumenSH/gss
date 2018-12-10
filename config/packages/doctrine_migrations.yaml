@@ -1,0 +1,6 @@
+doctrine_migrations:
+    dir_name: '%kernel.project_dir%/src/Migrations'
+    namespace: GSS\Component\Migrations
+    table_name: migration_versions
+    name: Gameserver-Sponsor
+    organize_migrations: false
